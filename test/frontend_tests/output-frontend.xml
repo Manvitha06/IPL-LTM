@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="2" failures="0" errors="0" time="1.04">
+  <testsuite name="test" errors="0" failures="0" skipped="0" timestamp="2024-09-24T20:48:43" time="0.982" tests="2">
+    <testcase classname="test login function should log correct information - Day 15" name="test login function should log correct information - Day 15" time="0.01">
+    </testcase>
+    <testcase classname="test register function should log correct information - Day 15" name="test register function should log correct information - Day 15" time="0.004">
+    </testcase>
+  </testsuite>
+</testsuites>
