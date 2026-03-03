@@ -1,9 +1,12 @@
 package com.edutech.progressive.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Team implements Comparable<Team>{
@@ -14,6 +17,18 @@ public class Team implements Comparable<Team>{
     private String location;
     private String ownerName;
     private int establishmentYear;
+  
+@OneToMany(mappedBy = "team")
+    private List<Cricketer> cricketers;
+
+    // One team → many matches as first team
+    @OneToMany(mappedBy = "firstTeam")
+    private List<Match> matchesAsFirstTeam;
+   
+@OneToMany(mappedBy = "secondTeam")
+    private List<Match> matchesAsSecondTeam;
+
+
 
     public Team() {
     }

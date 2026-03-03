@@ -22,7 +22,7 @@ List<Team>teams=new ArrayList<>();
 
     @Override
     public List<Team> getAllTeamsSortedByName() {
-      Collections.sort(teams);
+      Collections.sort( teams);
        return teams;
     }
 
