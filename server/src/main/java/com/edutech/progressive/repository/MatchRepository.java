@@ -1,34 +1,28 @@
+// src/main/java/com/edutech/progressive/repository/MatchRepository.java
 package com.edutech.progressive.repository;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.edutech.progressive.entity.Match;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.repository.query.Param;
 
-import com.edutech.progressive.entity.Match;
+import java.util.List;
 
-
-  @Repository
+@Repository
 public interface MatchRepository extends JpaRepository<Match, Integer> {
 
-    // Fetch a match by its domain identifier
     Match findByMatchId(int matchId);
 
-    // Filter by status (e.g., "Pending", "Scheduled", "Completed")
     List<Match> findAllByStatus(String status);
 
-    /**
-     * Deletes all matches where a team is involved as either firstTeam or secondTeam.
-     * This is used when deleting a Team to maintain referential integrity.
-     */
+    // ✅ Native delete avoids HQL bulk delete with association cross-joins
     @Modifying
     @Transactional
-    @Query("DELETE FROM Match m WHERE m.firstTeam.teamId = :teamId OR m.secondTeam.teamId = :teamId")
+    @Query(value = "DELETE FROM matches WHERE first_team_id = :teamId OR second_team_id = :teamId",
+           nativeQuery = true)
     void deleteByTeamId(@Param("teamId") int teamId);
 }
 

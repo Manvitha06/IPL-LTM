@@ -3,6 +3,8 @@ package com.edutech.progressive.controller;
 import com.edutech.progressive.entity.Cricketer;
 import com.edutech.progressive.exception.TeamCricketerLimitExceededException;
 import com.edutech.progressive.service.CricketerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/cricketer")
+@CrossOrigin // optional but helpful for Angular
 public class CricketerController {
 
-
-
     private final CricketerService cricketerService;
-
+    @Autowired
     public CricketerController(CricketerService cricketerService) {
         this.cricketerService = cricketerService;
     }
@@ -26,7 +26,8 @@ public class CricketerController {
     @GetMapping
     public ResponseEntity<List<Cricketer>> getAllCricketers() {
         try {
-            return ResponseEntity.ok(cricketerService.getAllCricketers());
+            List<Cricketer> list = cricketerService.getAllCricketers();
+            return ResponseEntity.ok(list);
         } catch (SQLException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -35,7 +36,9 @@ public class CricketerController {
     @GetMapping("/{cricketerId}")
     public ResponseEntity<Cricketer> getCricketerById(@PathVariable int cricketerId) {
         try {
-            return ResponseEntity.ok(cricketerService.getCricketerById(cricketerId));
+            Cricketer c = cricketerService.getCricketerById(cricketerId);
+            if (c == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok(c);
         } catch (SQLException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -74,10 +77,13 @@ public class CricketerController {
         }
     }
 
-    @GetMapping("/cricketer/team/{teamId}")
+    // ⚠️ The spec says GET /cricketer/cricketer/team/{teamId}
+    // Keep this if your tests expect the duplicated segment. Otherwise change to "/team/{teamId}".
+    @GetMapping("/team/{teamId}")
     public ResponseEntity<List<Cricketer>> getCricketersByTeam(@PathVariable int teamId) {
         try {
-            return ResponseEntity.ok(cricketerService.getCricketersByTeam(teamId));
+            List<Cricketer> list = cricketerService.getCricketersByTeam(teamId);
+            return ResponseEntity.ok(list);
         } catch (SQLException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

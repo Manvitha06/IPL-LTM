@@ -15,21 +15,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.sql.SQLException;
 import java.util.List;
-
-
 @RestController
 @RequestMapping("/team")
 public class TeamController {
-
-
-
     private final TeamService teamService;
-
+    @Autowired
     public TeamController(TeamService teamService) { this.teamService = teamService; }
-
     @GetMapping
     public ResponseEntity<List<Team>> getAllTeams() {
         try {
@@ -38,7 +31,6 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
     @GetMapping("/{teamId}")
     public ResponseEntity<?> getTeamById(@PathVariable int teamId) {
         try {
@@ -50,7 +42,6 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to fetch team");
         }
     }
-
     @PostMapping
     public ResponseEntity<?> addTeam(@RequestBody Team team) {
         try {
@@ -62,7 +53,6 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create team");
         }
     }
-
     @PutMapping("/{teamId}")
     public ResponseEntity<?> updateTeam(@PathVariable int teamId, @RequestBody Team team) {
         try {
@@ -77,7 +67,6 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update team");
         }
     }
-
     @DeleteMapping("/{teamId}")
     public ResponseEntity<Void> deleteTeam(@PathVariable int teamId) {
         try {
@@ -87,18 +76,15 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
     // ArrayList endpoints (from earlier days)
     @GetMapping("/fromArrayList")
     public ResponseEntity<List<Team>> getAllTeamsFromArrayList() {
         return ResponseEntity.ok().build(); // fill as per Day 5 if required
     }
-
     @PostMapping("/toArrayList")
     public ResponseEntity<Integer> addTeamToArrayList(@RequestBody Team team) {
         return ResponseEntity.status(HttpStatus.CREATED).build(); // fill as per Day 5 if required
     }
-
     @GetMapping("/fromArrayList/sorted")
     public ResponseEntity<List<Team>> getAllTeamsSortedByNameFromArrayList() {
         return ResponseEntity.ok().build(); // fill as per Day 5 if required

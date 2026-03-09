@@ -1,33 +1,23 @@
 package com.edutech.progressive.repository;
 
-import javax.transaction.Transactional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
 import com.edutech.progressive.entity.Vote;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
-    // Total count of votes for a category
     Long countByCategory(String category);
 
-    // Delete all votes associated to a Team
     @Modifying
     @Transactional
-    @Query("DELETE FROM Vote v WHERE v.team.teamId = :teamId")
+    @Query(value = "DELETE FROM vote WHERE team_id = :teamId", nativeQuery = true)
     void deleteByTeamId(@Param("teamId") int teamId);
 
-    // Delete all votes associated to a Cricketer
     @Modifying
     @Transactional
-    @Query("DELETE FROM Vote v WHERE v.cricketer.cricketerId = :cricketerId")
+    @Query(value = "DELETE FROM vote WHERE cricketer_id = :cricketerId", nativeQuery = true)
     void deleteByCricketerId(@Param("cricketerId") int cricketerId);
 }
-
-
-
