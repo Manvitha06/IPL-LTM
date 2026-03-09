@@ -11,3 +11,58 @@ registerUsername: it will not contain any special characters
 registerEmail: it will be a valid email
 registerPassword: it will be of atleast 8 characters 
 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login and Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.cssjs/validation.js</script>
+</head>
+
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="text-center mb-4">Register</h3>
+
+            <form onsubmit="event.preventDefault(); register();">
+              <div class="mb-3">
+                <label for="registerName" class="form-label">Full Name</label>
+                <input type="text" id="registerName" class="form-control" placeholder="Enter full name" />
+              </div>
+
+              <div class="mb-3">
+                <label for="registerEmail" class="form-label">Email</label>
+                <input type="text" id="registerEmail" class="form-control" placeholder="Enter email" />
+              </div>
+
+              <div class="mb-3">
+                <label for="registerUsername" class="form-label">Username</label>
+                <input type="text" id="registerUsername" class="form-control" placeholder="Letters & numbers only" />
+              </div>
+
+              <div class="mb-3">
+                <label for="registerPassword" class="form-label">Password</label>
+                <input type="password" id="registerPassword" class="form-control" placeholder="Min 8 chars, 1 uppercase, 1 number" />
+              </div>
+
+              <button type="submit" class="btn btn-success w-100">Register</button>
+            </form>
+
+            <div class="text-center mt-3">
+              login.htmlAlready have an account? Login</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="registerMessage" class="text-center mt-3"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
