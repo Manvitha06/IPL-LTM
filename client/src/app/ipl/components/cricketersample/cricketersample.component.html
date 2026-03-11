@@ -1,0 +1,18 @@
+<div class="card shadow-sm cricketer-card">
+  <div class="card-header bg-success text-white">
+    <h5 class="mb-0">Cricketer Details</h5>
+  </div>
+  <div class="card-body" *ngIf="cricketer">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Cricketer ID:</strong> {{ cricketer.cricketerId }}</li>
+      <li class="list-group-item"><strong>Team ID:</strong> {{ cricketer.teamId }}</li>
+      <li class="list-group-item"><strong>Cricketer Name:</strong> {{ cricketer.cricketerName }}</li>
+      <li class="list-group-item"><strong>Age:</strong> {{ cricketer.age }}</li>
+      <li class="list-group-item"><strong>Nationality:</strong> {{ cricketer.nationality }}</li>
+      <li class="list-group-item"><strong>Experience:</strong> {{ cricketer.experience }} years</li>
+      <li class="list-group-item"><strong>Role:</strong> {{ cricketer.role }}</li>
+      <li class="list-group-item"><strong>Total Runs:</strong> {{ cricketer.totalRuns }}</li>
+      <li class="list-group-item"><strong>Total Wickets:</strong> {{ cricketer.totalWickets }}</li>
+    </ul>
+  </div>
+</div>

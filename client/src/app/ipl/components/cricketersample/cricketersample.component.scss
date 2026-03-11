@@ -1,0 +1,14 @@
+.cricketer-card {
+  max-width: 520px;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+
+  .card-header {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  .list-group-item {
+    font-size: 0.95rem;
+  }
+}
