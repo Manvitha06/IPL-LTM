@@ -1,0 +1,111 @@
+<div class="container py-4">
+  <h2 class="mb-3">Create Cricketer</h2>
+
+  <form [formGroup]="cricketerForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row g-3">
+      <!-- Cricketer ID -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="cricketerId">Cricketer ID</label>
+        <input id="cricketerId" type="number" class="form-control" formControlName="cricketerId" placeholder="e.g., 1">
+        <div class="text-danger small" *ngIf="f.cricketerId.touched && f.cricketerId.invalid">
+          <div *ngIf="f.cricketerId.errors?.['required']">Cricketer ID is required.</div>
+          <div *ngIf="f.cricketerId.errors?.['min']">Cricketer ID must be ≥ 1.</div>
+        </div>
+      </div>
+
+      <!-- Team ID -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="teamId">Team ID</label>
+        <input id="teamId" type="number" class="form-control" formControlName="teamId" placeholder="e.g., 10">
+        <div class="text-danger small" *ngIf="f.teamId.touched && f.teamId.invalid">
+          <div *ngIf="f.teamId.errors?.['required']">Team ID is required.</div>
+          <div *ngIf="f.teamId.errors?.['min']">Team ID must be ≥ 1.</div>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="cricketerName">Cricketer Name</label>
+        <input id="cricketerName" type="text" class="form-control" formControlName="cricketerName" placeholder="e.g., Rohit Sharma">
+        <div class="text-danger small" *ngIf="f.cricketerName.touched && f.cricketerName.invalid">
+          <div *ngIf="f.cricketerName.errors?.['required']">Name is required.</div>
+          <div *ngIf="f.cricketerName.errors?.['minlength']">Name must be at least 2 characters.</div>
+        </div>
+      </div>
+
+      <!-- Age -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="age">Age</label>
+        <input id="age" type="number" class="form-control" formControlName="age" placeholder="e.g., 30">
+        <div class="text-danger small" *ngIf="f.age.touched && f.age.invalid">
+          <div *ngIf="f.age.errors?.['required']">Age is required.</div>
+          <div *ngIf="f.age.errors?.['min']">Age must be ≥ 0.</div>
+        </div>
+      </div>
+
+      <!-- Nationality -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="nationality">Nationality</label>
+        <input id="nationality" type="text" class="form-control" formControlName="nationality" placeholder="e.g., India">
+        <div class="text-danger small" *ngIf="f.nationality.touched && f.nationality.invalid">
+          <div *ngIf="f.nationality.errors?.['required']">Nationality is required.</div>
+          <div *ngIf="f.nationality.errors?.['minlength']">Nationality must be at least 2 characters.</div>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="experience">Experience (years)</label>
+        <input id="experience" type="number" class="form-control" formControlName="experience" placeholder="e.g., 5">
+        <div class="text-danger small" *ngIf="f.experience.touched && f.experience.invalid">
+          <div *ngIf="f.experience.errors?.['required']">Experience is required.</div>
+          <div *ngIf="f.experience.errors?.['min']">Experience must be ≥ 0.</div>
+        </div>
+      </div>
+
+      <!-- Role -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="role">Role</label>
+        <select id="role" class="form-select" formControlName="role">
+          <option value="" disabled>Select role</option>
+          <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+        </select>
+        <div class="text-danger small" *ngIf="f.role.touched && f.role.invalid">
+          <div *ngIf="f.role.errors?.['required']">Role is required.</div>
+        </div>
+      </div>
+
+      <!-- Runs -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="totalRuns">Total Runs</label>
+        <input id="totalRuns" type="number" class="form-control" formControlName="totalRuns" placeholder="e.g., 3500">
+        <div class="text-danger small" *ngIf="f.totalRuns.touched && f.totalRuns.invalid">
+          <div *ngIf="f.totalRuns.errors?.['required']">Total Runs is required.</div>
+          <div *ngIf="f.totalRuns.errors?.['min']">Total Runs must be ≥ 0.</div>
+        </div>
+      </div>
+
+      <!-- Wickets -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="totalWickets">Total Wickets</label>
+        <input id="totalWickets" type="number" class="form-control" formControlName="totalWickets" placeholder="e.g., 120">
+        <div class="text-danger small" *ngIf="f.totalWickets.touched && f.totalWickets.invalid">
+          <div *ngIf="f.totalWickets.errors?.['required']">Total Wickets is required.</div>
+          <div *ngIf="f.totalWickets.errors?.['min']">Total Wickets must be ≥ 0.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="mt-3">
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-2 d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Create Cricketer</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+</div>

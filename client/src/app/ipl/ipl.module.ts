@@ -6,11 +6,17 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { TeamCreateComponent } from "./components/teamcreate/teamcreate.component";
 import { CricketerArrayComponent } from "./components/cricketerarray/cricketerarray.component";
+import { CricketerCreateComponent } from "./components/cricketercreate/cricketercreate.component";
+import { MatchCreateComponent } from "./components/matchcreate/matchcreate.component";
 
 @NgModule({
  declarations: [
     TeamCreateComponent,
-    CricketerArrayComponent
+    CricketerArrayComponent,
+  
+ CricketerCreateComponent,
+    MatchCreateComponent
+
   ],
   imports: [
     CommonModule,
@@ -22,7 +28,9 @@ import { CricketerArrayComponent } from "./components/cricketerarray/cricketerar
 
   exports: [
       TeamCreateComponent,
-    CricketerArrayComponent
+    CricketerArrayComponent,
+     CricketerCreateComponent,
+    MatchCreateComponent
     
   ]
 })

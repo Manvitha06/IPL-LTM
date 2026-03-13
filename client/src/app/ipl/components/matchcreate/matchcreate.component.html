@@ -1,0 +1,95 @@
+<div class="container py-4">
+  <h2 class="mb-3">Create Match</h2>
+
+  <form [formGroup]="matchForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row g-3">
+      <!-- Match ID -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="matchId">Match ID</label>
+        <input id="matchId" type="number" class="form-control" formControlName="matchId" placeholder="e.g., 1">
+        <div class="text-danger small" *ngIf="f.matchId.touched && f.matchId.invalid">
+          <div *ngIf="f.matchId.errors?.['required']">Match ID is required.</div>
+          <div *ngIf="f.matchId.errors?.['min']">Match ID must be ≥ 1.</div>
+        </div>
+      </div>
+
+      <!-- First Team -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="firstTeamId">First Team ID</label>
+        <input id="firstTeamId" type="number" class="form-control" formControlName="firstTeamId" placeholder="e.g., 5">
+        <div class="text-danger small" *ngIf="f.firstTeamId.touched && f.firstTeamId.invalid">
+          <div *ngIf="f.firstTeamId.errors?.['required']">First Team ID is required.</div>
+          <div *ngIf="f.firstTeamId.errors?.['min']">First Team ID must be ≥ 1.</div>
+        </div>
+      </div>
+
+      <!-- Second Team -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="secondTeamId">Second Team ID</label>
+        <input id="secondTeamId" type="number" class="form-control" formControlName="secondTeamId" placeholder="e.g., 7">
+        <div class="text-danger small" *ngIf="f.secondTeamId.touched && f.secondTeamId.invalid">
+          <div *ngIf="f.secondTeamId.errors?.['required']">Second Team ID is required.</div>
+          <div *ngIf="f.secondTeamId.errors?.['min']">Second Team ID must be ≥ 1.</div>
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="matchDate">Match Date</label>
+        <input id="matchDate" type="date" class="form-control" formControlName="matchDate">
+        <div class="text-danger small" *ngIf="f.matchDate.touched && f.matchDate.invalid">
+          <div *ngIf="f.matchDate.errors?.['required']">Match Date is required.</div>
+        </div>
+      </div>
+
+      <!-- Venue -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="venue">Venue</label>
+        <input id="venue" type="text" class="form-control" formControlName="venue" placeholder="e.g., Wankhede Stadium">
+        <div class="text-danger small" *ngIf="f.venue.touched && f.venue.invalid">
+          <div *ngIf="f.venue.errors?.['required']">Venue is required.</div>
+          <div *ngIf="f.venue.errors?.['minlength']">Venue must be at least 2 characters.</div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="result">Result</label>
+        <input id="result" type="text" class="form-control" formControlName="result" placeholder="e.g., Team A won by 6 wickets">
+      </div>
+
+      <!-- Status -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="status">Status</label>
+        <select id="status" class="form-select" formControlName="status">
+          <option value="" disabled>Select status</option>
+          <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+        </select>
+        <div class="text-danger small" *ngIf="f.status.touched && f.status.invalid">
+          <div *ngIf="f.status.errors?.['required']">Status is required.</div>
+        </div>
+      </div>
+
+      <!-- Winner Team -->
+      <div class="col-12 col-md-4">
+        <label class="form-label" for="winnerTeamId">Winner Team ID (optional)</label>
+        <input id="winnerTeamId" type="number" class="form-control" formControlName="winnerTeamId" placeholder="e.g., 5">
+        <div class="text-danger small" *ngIf="f.winnerTeamId.touched && f.winnerTeamId.invalid">
+          <div *ngIf="f.winnerTeamId.errors?.['min']">Winner Team ID must be ≥ 1 when provided.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="mt-3">
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-2 d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Create Match</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+</div>
