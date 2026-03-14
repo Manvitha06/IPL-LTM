@@ -9,11 +9,17 @@ import { CricketerArrayComponent } from "./components/cricketerarray/cricketerar
 import { CricketerCreateComponent } from "./components/cricketercreate/cricketercreate.component";
 import { MatchCreateComponent } from "./components/matchcreate/matchcreate.component";
 
+import { VoteComponent } from './components/vote/vote.component';
+import { TicketBookingComponent } from './components/ticketbooking/ticketbooking.component';
+
 @NgModule({
  declarations: [
     TeamCreateComponent,
     CricketerArrayComponent,
-  
+
+ VoteComponent,
+    TicketBookingComponent,
+
  CricketerCreateComponent,
     MatchCreateComponent
 
@@ -30,6 +36,8 @@ import { MatchCreateComponent } from "./components/matchcreate/matchcreate.compo
       TeamCreateComponent,
     CricketerArrayComponent,
      CricketerCreateComponent,
+      VoteComponent,
+    TicketBookingComponent,
     MatchCreateComponent
     
   ]

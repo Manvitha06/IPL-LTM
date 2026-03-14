@@ -1,0 +1,52 @@
+<div class="container py-4">
+  <h2 class="mb-3">Book Tickets</h2>
+
+  <!-- ✅ Use ticketBookingForm (what the test expects) -->
+  <form [formGroup]="ticketBookingForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label" for="bookingId">Booking ID</label>
+        <input id="bookingId" type="number" class="form-control" formControlName="bookingId" />
+        <div class="text-danger mt-1" *ngIf="f['bookingId'].touched && f['bookingId'].invalid">
+          <small *ngIf="f['bookingId'].errors?.['required']">Booking ID is required.</small>
+          <small *ngIf="f['bookingId'].errors?.['min']">Booking ID must be at least 1.</small>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <label class="form-label" for="email">Email</label>
+        <input id="email" type="email" class="form-control" placeholder="name@example.com" formControlName="email" />
+        <div class="text-danger mt-1" *ngIf="f['email'].touched && f['email'].invalid">
+          <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
+          <small *ngIf="f['email'].errors?.['email']">Please enter a valid email address.</small>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label" for="matchId">Match ID</label>
+        <input id="matchId" type="number" class="form-control" formControlName="matchId" />
+        <div class="text-danger mt-1" *ngIf="f['matchId'].touched && f['matchId'].invalid">
+          <small *ngIf="f['matchId'].errors?.['required']">Match ID is required.</small>
+          <small *ngIf="f['matchId'].errors?.['min']">Match ID must be at least 1.</small>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label" for="numberOfTickets">Tickets</label>
+        <input id="numberOfTickets" type="number" class="form-control" formControlName="numberOfTickets" />
+        <div class="text-danger mt-1" *ngIf="f['numberOfTickets'].touched && f['numberOfTickets'].invalid">
+          <small *ngIf="f['numberOfTickets'].errors?.['required']">Number of tickets is required.</small>
+          <small *ngIf="f['numberOfTickets'].errors?.['min']">At least 1 ticket is required.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+      <button class="btn btn-success" type="submit" [disabled]="ticketBookingForm.invalid">Book Now</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+
+  <div class="alert alert-success mt-3" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>
