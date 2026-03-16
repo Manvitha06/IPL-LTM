@@ -1,0 +1,89 @@
+<div class="auth-card container py-4">
+  <h2 class="mb-3">Register</h2>
+
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Full Name -->
+    <div class="mb-3">
+      <label for="fullName" class="form-label">Full Name</label>
+      <input
+        id="fullName"
+        type="text"
+        class="form-control"
+        placeholder="Enter full name"
+        formControlName="fullName"
+        [class.is-invalid]="fullName?.touched && fullName?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="fullName?.touched && fullName?.errors">
+        <div *ngIf="fullName?.errors?.['required']">Full name is required.</div>
+        <div *ngIf="fullName?.errors?.['minlength']">Full name must be at least 2 characters.</div>
+      </div>
+    </div>
+
+    <!-- Username -->
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        id="username"
+        type="text"
+        class="form-control"
+        placeholder="Choose a username"
+        formControlName="username"
+        [class.is-invalid]="username?.touched && username?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="username?.touched && username?.errors">
+        <div *ngIf="username?.errors?.['required']">Username is required.</div>
+        <div *ngIf="username?.errors?.['pattern']">
+          Username must be alphanumeric only (no special characters).
+        </div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        placeholder="Enter email"
+        formControlName="email"
+        [class.is-invalid]="email?.touched && email?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="email?.touched && email?.errors">
+        <div *ngIf="email?.errors?.['required']">Email is required.</div>
+        <div *ngIf="email?.errors?.['email']">Enter a valid email address.</div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        placeholder="Create a password"
+        formControlName="password"
+        [class.is-invalid]="password?.touched && password?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="password?.touched && password?.errors">
+        <div *ngIf="password?.errors?.['required']">Password is required.</div>
+        <div *ngIf="password?.errors?.['minlength']">
+          Password must be at least 8 characters.
+        </div>
+        <div *ngIf="password?.errors?.['pattern']">
+          Password must contain at least one uppercase letter and one number.
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-success" type="submit" [disabled]="registrationForm.invalid">
+      Register
+    </button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">Reset</button>
+  </form>
+
+  <!-- Messages -->
+  <div class="alert alert-success mt-3" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

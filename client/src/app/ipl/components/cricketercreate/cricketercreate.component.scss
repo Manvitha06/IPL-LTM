@@ -1,0 +1,15 @@
+.container {
+  max-width: 980px;
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .is-invalid {
+    border-color: #dc3545;
+  }
+
+  .invalid-feedback, .text-danger.small {
+    display: block;
+  }
+}

@@ -1,47 +1,111 @@
-<div class="team-form-container">
-<form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
-<div>
-<label for="teamId">Team ID:</label>
-<input id="teamId" formControlName="teamId" type="number" placeholder="Enter Team ID" />
-<div *ngIf="teamForm.get('teamId')?.invalid && teamForm.get('teamId')?.touched">
-<small class="error">Team ID is required and must be a positive number.</small>
-</div>
-</div>
-<div>
-<label for="teamName">Team Name:</label>
-<input id="teamName" formControlName="teamName" type="text" placeholder="Enter Team Name" />
-<div *ngIf="teamForm.get('teamName')?.invalid && teamForm.get('teamName')?.touched">
-<small class="error">Team Name is required and must be at least 2 characters long.</small>
-</div>
-</div>
-<div>
-<label for="location">Location:</label>
-<input id="location" formControlName="location" type="text" placeholder="Enter Location" />
-<div *ngIf="teamForm.get('location')?.invalid && teamForm.get('location')?.touched">
-<small class="error">Location is required.</small>
-</div>
-</div>
-<div>
-<label for="ownerName">Owner Name:</label>
-<input id="ownerName" formControlName="ownerName" type="text" placeholder="Enter Owner Name" />
-<div *ngIf="teamForm.get('ownerName')?.invalid && teamForm.get('ownerName')?.touched">
-<small class="error">Owner Name is required and must be at least 2 characters long.</small>
-</div>
-</div>
-<div>
-<label for="establishmentYear">Establishment Year:</label>
-<input id="establishmentYear" formControlName="establishmentYear" type="number" placeholder="Enter Establishment Year" />
-</div>
-<!-- Event Binding: onSubmit -->
-<button type="submit" [disabled]="teamForm.invalid">Create Team</button>
-<!-- Event Binding: onReset -->
-<button type="button" (click)="resetForm()">Reset Form</button>
-</form>
-<!-- Display Success or Error Messages -->
-<div *ngIf="successMessage" class="success">
-<p>{{ successMessage }}</p>
-</div>
-<div *ngIf="errorMessage" class="error">
-<p>{{ errorMessage }}</p>
-</div>
+<div class="team-form-container container py-4">
+  <h2 class="mb-3">Create Team</h2>
+
+  <form [formGroup]="teamForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Team ID -->
+    <div class="mb-3">
+      <label for="teamId" class="form-label">Team ID</label>
+      <input
+        id="teamId"
+        type="number"
+        class="form-control"
+        formControlName="teamId"
+        placeholder="Enter Team ID"
+        [class.is-invalid]="teamId?.touched && teamId?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="teamId?.touched && teamId?.errors">
+        <div *ngIf="teamId?.errors?.['required']">Team ID is required.</div>
+        <div *ngIf="teamId?.errors?.['min']">Team ID must be a positive number.</div>
+      </div>
+    </div>
+
+    <!-- Team Name -->
+    <div class="mb-3">
+      <label for="teamName" class="form-label">Team Name</label>
+      <input
+        id="teamName"
+        type="text"
+        class="form-control"
+        formControlName="teamName"
+        placeholder="Enter Team Name"
+        [class.is-invalid]="teamName?.touched && teamName?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="teamName?.touched && teamName?.errors">
+        <div *ngIf="teamName?.errors?.['required']">Team Name is required.</div>
+        <div *ngIf="teamName?.errors?.['minlength']">
+          Team Name must be at least 2 characters long.
+        </div>
+        <div *ngIf="teamName?.errors?.['pattern']">
+          Team name must be alphanumeric (spaces allowed). Special characters are not allowed.
+        </div>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input
+        id="location"
+        type="text"
+        class="form-control"
+        formControlName="location"
+        placeholder="Enter Location"
+        [class.is-invalid]="location?.touched && location?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="location?.touched && location?.errors">
+        <div *ngIf="location?.errors?.['required']">Location is required.</div>
+      </div>
+    </div>
+
+    <!-- Owner Name -->
+    <div class="mb-3">
+      <label for="ownerName" class="form-label">Owner Name</label>
+      <input
+        id="ownerName"
+        type="text"
+        class="form-control"
+        formControlName="ownerName"
+        placeholder="Enter Owner Name"
+        [class.is-invalid]="ownerName?.touched && ownerName?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="ownerName?.touched && ownerName?.errors">
+        <div *ngIf="ownerName?.errors?.['required']">Owner Name is required.</div>
+        <div *ngIf="ownerName?.errors?.['minlength']">
+          Owner Name must be at least 2 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Establishment Year -->
+    <div class="mb-3">
+      <label for="establishmentYear" class="form-label">Establishment Year</label>
+      <input
+        id="establishmentYear"
+        type="number"
+        class="form-control"
+        formControlName="establishmentYear"
+        placeholder="Enter Establishment Year"
+        [class.is-invalid]="establishmentYear?.touched && establishmentYear?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="establishmentYear?.touched && establishmentYear?.errors">
+        <div *ngIf="establishmentYear?.errors?.['required']">Establishment Year is required.</div>
+        <div *ngIf="establishmentYear?.errors?.['min']">Year must be ≥ 1900.</div>
+        <div *ngIf="establishmentYear?.errors?.['max']">
+          Year cannot exceed {{ currentYear }}.
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <button type="submit" class="btn btn-primary" [disabled]="teamForm.invalid">Create Team</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">Reset Form</button>
+  </form>
+
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
 </div>

@@ -1,0 +1,26 @@
+<div class="container py-4" [formGroup]="loginForm">
+  <h3>Login</h3>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Username</label>
+      <input class="form-control" formControlName="username" />
+      <div class="text-danger" *ngIf="username?.touched && username?.invalid">
+        Username is required and must be alphanumeric (., _, - allowed).
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" formControlName="password" />
+      <div class="text-danger" *ngIf="password?.touched && password?.invalid">
+        Password is required and must be at least 8 characters.
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Login</button>
+  </form>
+
+  <div class="alert alert-success mt-3" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>
