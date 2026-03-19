@@ -1,45 +1,47 @@
-import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent {
-  registrationForm: FormGroup;
+export class RegistrationComponent implements OnInit {
+  registrationForm!: FormGroup;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  private usernamePattern = /^[a-zA-Z0-9]+$/;
-  private strongPassword = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
 
-  constructor(private fb: FormBuilder) {
-    this.registrationForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.minLength(2)]],
-      username: ['', [Validators.required, Validators.pattern(this.usernamePattern)]],
+  ngOnInit(): void {
+    this.registrationForm = this.formBuilder.group({
+      fullName: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(this.strongPassword)]],
+      role: ["", [Validators.required]],
     });
   }
 
-  get fullName(): AbstractControl | null { return this.registrationForm.get('fullName'); }
-  get username(): AbstractControl | null { return this.registrationForm.get('username'); }
-  get email(): AbstractControl | null { return this.registrationForm.get('email'); }
-  get password(): AbstractControl | null { return this.registrationForm.get('password'); }
-
   onSubmit(): void {
-    this.successMessage = null;
-    this.errorMessage = null;
-
-    if (this.registrationForm.invalid) {
-      // 🔴 REQUIRED BY TEST: set this exact string on invalid entries (e.g., bad email)
-      this.errorMessage = 'Please fill out all required fields correctly.';
-      this.registrationForm.markAllAsTouched();
-      return;
+    if (this.registrationForm.valid) {
+      this.authService.createUser(this.registrationForm.value).subscribe(
+        response => {
+          this.successMessage = 'Registration successful!';
+          this.errorMessage = null;
+          this.registrationForm.reset();
+        },
+        error => {
+          this.errorMessage = error;
+          this.successMessage = null;
+        }
+      );
+    } else {
+      this.errorMessage = 'Please fill out the form correctly.';
     }
-
-    // if service exists, call it; for Day 21 demo we can just succeed
-    this.successMessage = 'Registration successful!';
   }
 }

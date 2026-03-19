@@ -1,26 +1,31 @@
-<div class="container py-4" [formGroup]="loginForm">
-  <h3>Login</h3>
-
-  <form (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label class="form-label">Username</label>
-      <input class="form-control" formControlName="username" />
-      <div class="text-danger" *ngIf="username?.touched && username?.invalid">
-        Username is required and must be alphanumeric (., _, - allowed).
+<div class="login-form-container">
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <h2>Login</h2>
+    <div>
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" type="text" placeholder="Enter Username">
+      <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error">
+        <small *ngIf="loginForm.get('username')?.hasError('required')">Username is required.</small>
+        <small *ngIf="loginForm.get('username')?.hasError('pattern')">Username cannot contain special characters.</small>
       </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input type="password" class="form-control" formControlName="password" />
-      <div class="text-danger" *ngIf="password?.touched && password?.invalid">
-        Password is required and must be at least 8 characters.
+    <div>
+      <label for="password">Password</label>
+      <input id="password" formControlName="password" type="password" placeholder="Enter Password">
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+        <small *angIf="loginForm.get('password')?.hasError('required')">Password is required.</small>
+        <small *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 8 characters long.</small>
+        <small *ngIf="loginForm.get('password')?.hasError('pattern')">Password must contain at least one capital letter and one numeric digit.</small>
       </div>
     </div>
 
-    <button class="btn btn-primary" type="submit">Login</button>
+    <button type="submit">Login</button>
+    <a routerLink="/auth/register" class="task-list">Sign up</a>
+    <div *ngIf="errorMessage" class="error">
+      <p>{{ errorMessage }}</p>
+    </div>
   </form>
 
-  <div class="alert alert-success mt-3" *ngIf="successMessage">{{ successMessage }}</div>
-  <div class="alert alert-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>

@@ -1,93 +1,101 @@
+
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IplService } from '../../services/ipl.service';
 import { Team } from '../../types/Team';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-teamcreate',
-  templateUrl: './teamcreate.component.html',
-  styleUrls: ['./teamcreate.component.scss']
+  selector: 'app-teamedit',
+  templateUrl: './teamedit.component.html',
+  styleUrls: ['./teamedit.component.scss']
 })
-export class TeamCreateComponent implements OnInit {
+export class TeamEditComponent implements OnInit {
   teamForm!: FormGroup;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  currentYear: number = new Date().getFullYear();
+  team: Team | null = null;
+  teamId!: number;
 
-  currentYear = new Date().getFullYear();
-  // Alphanumeric + space only (no special characters)
-  private readonly teamNamePattern = /^[a-zA-Z0-9 ]+$/;
-
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private iplService: IplService,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.teamForm = this.formBuilder.group({
-      teamId: [null, [Validators.required, Validators.min(1)]],
-      teamName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(this.teamNamePattern)]],
-      location: ['', [Validators.required]],
-      ownerName: ['', [Validators.required, Validators.minLength(2)]],
-      establishmentYear: [
-        this.currentYear,
-        [Validators.required, Validators.min(1900), Validators.max(this.currentYear)]
-      ]
+        teamName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]+$/)]], // No special characters
+        location: ['', [Validators.required]],
+        ownerName: ['', [Validators.required, Validators.minLength(2)]],
+        establishmentYear: [
+          null,
+          [Validators.required, Validators.min(1900), Validators.max(this.currentYear)]
+        ]
+    });
+    this.route.params.subscribe(params => {
+        console.log(params);
+        this.teamId = params['teamId'];
+        this.loadTeamDetails(this.teamId);
     });
   }
 
-  // ----- Getters for template cleanliness -----
-  get teamId(): AbstractControl | null { return this.teamForm.get('teamId'); }
-  get teamName(): AbstractControl | null { return this.teamForm.get('teamName'); }
-  get location(): AbstractControl | null { return this.teamForm.get('location'); }
-  get ownerName(): AbstractControl | null { return this.teamForm.get('ownerName'); }
-  get establishmentYear(): AbstractControl | null { return this.teamForm.get('establishmentYear'); }
+  loadTeamDetails(teamId: number): void {
+    this.iplService.getTeamById(teamId).subscribe({
+        next: (response) => {
+            this.team = response;
+            this.teamForm.patchValue({
+                teamName: response.teamName,
+                location: response.location,
+                ownerName: response.ownerName,
+                establishmentYear: response.establishmentYear
+            })
+        },
+        error: (error) => {
+            this.handleError(error);
+        }
+    });
+}
 
-  // Handle form submission and set messages accordingly
   onSubmit(): void {
+    if (this.teamForm.valid) {
+        const updatedTeam: Team = {
+          teamId: this.teamId,
+          teamName: this.teamForm.value.teamName,
+          location: this.teamForm.value.location,
+          ownerName: this.teamForm.value.ownerName,
+          establishmentYear: this.teamForm.value.establishmentYear,
+          displayInfo: function (): void {}
+        }
+        this.iplService.updateTeam(updatedTeam).subscribe({
+            next: (response) => {
+              this.team = response;
+              this.errorMessage = null;
+              console.log(this.team);
+              this.teamForm.reset();
+            },
+            error: (error) => {
+              this.handleError(error);
+            },
+            complete: () => {
+              this.successMessage = 'Team updated successfully!';
+            }
+        });
+    } 
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.error instanceof ErrorEvent) {
+      this.errorMessage = `Client-side error: ${error.error.message}`;
+    } else {
+      this.errorMessage = `Server-side error: ${error.status} ${error.message}`;
+      if (error.status === 400) {
+        this.errorMessage = 'Bad request. Please check your input.';
+      }
+    }
     this.successMessage = null;
-    this.errorMessage = null;
-
-    if (this.teamForm.invalid) {
-      this.teamForm.markAllAsTouched();
-      this.errorMessage = 'Please fill out all required fields correctly.';
-      return;
-    }
-
-    const payload: Team = this.teamForm.value;
-
-    // ✅ Simulate backend error propagation (e.g., TeamAlreadyExistsException)
-    const backendError = this.simulateBackendConflict(payload.teamName);
-    if (backendError) {
-      this.errorMessage = backendError;
-      return;
-    }
-
-    // TODO: Replace with real call:
-    // this.iplService.addTeam(payload).subscribe({
-    //   next: (team) => { this.successMessage = 'Team created successfully!'; this.resetForm(); },
-    //   error: (err: HttpErrorResponse) => { this.errorMessage = err.error?.message ?? 'Failed to create team'; }
-    // });
-
-    this.successMessage = 'Team has been successfully created!';
-    console.log('Team Created: ', payload);
-    this.resetForm();
-  }
-
-  // Reset form data
-  resetForm(): void {
-    this.teamForm.reset({
-      teamId: null,
-      teamName: '',
-      location: '',
-      ownerName: '',
-      establishmentYear: this.currentYear
-    });
-    // Don’t clear messages on reset unless you want to:
-    // this.successMessage = null;
-    // this.errorMessage = null;
-  }
-
-  // Fake server rule for UI demo
-  private simulateBackendConflict(teamName: string): string | null {
-    if (teamName?.trim().toLowerCase() === 'existing team') {
-      return 'Team already exists. Please choose a different name.';
-    }
-    return null;
+    console.error('An error occurred:', this.errorMessage);
   }
 }

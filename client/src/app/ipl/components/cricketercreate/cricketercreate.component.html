@@ -1,185 +1,95 @@
-<div class="container py-4">
-  <h2 class="mb-3">Create Cricketer</h2>
+<div class="cricketer-form-container">
+  <h2>Create Cricketer</h2>
 
-  <form [formGroup]="cricketerForm" (ngSubmit)="onSubmit()" novalidate>
-    <div class="row g-3">
-      <!-- Cricketer ID -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="cricketerId">Cricketer ID</label>
-        <input
-          id="cricketerId"
-          type="number"
-          class="form-control"
-          formControlName="cricketerId"
-          placeholder="e.g., 1"
-          [class.is-invalid]="f.cricketerId.touched && f.cricketerId.invalid"
-          [attr.aria-invalid]="f.cricketerId.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.cricketerId.touched && f.cricketerId.invalid">
-          <div *ngIf="f.cricketerId.errors?.['required']">Cricketer ID is required.</div>
-          <div *ngIf="f.cricketerId.errors?.['min']">Cricketer ID must be ≥ 1.</div>
-        </div>
-      </div>
+  <form [formGroup]="cricketerForm" (ngSubmit)="onSubmit()">
 
-      <!-- Team ID -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="teamId">Team ID</label>
-        <input
-          id="teamId"
-          type="number"
-          class="form-control"
-          formControlName="teamId"
-          placeholder="e.g., 10"
-          [class.is-invalid]="f.teamId.touched && f.teamId.invalid"
-          [attr.aria-invalid]="f.teamId.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.teamId.touched && f.teamId.invalid">
-          <div *ngIf="f.teamId.errors?.['required']">Team ID is required.</div>
-          <div *ngIf="f.teamId.errors?.['min']">Team ID must be ≥ 1.</div>
-        </div>
-      </div>
+    <!-- Team ID -->
+    <div>
+      <label for="team">Team ID</label>
+      <select formControlName="team">
+          <option value="">Select a Team</option>
+          <option *ngFor="let team of teams" [ngValue]="team">
+            {{ team.teamName }}
+          </option>
+      </select>
+    </div>
 
-      <!-- Name -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="cricketerName">Cricketer Name</label>
-        <input
-          id="cricketerName"
-          type="text"
-          class="form-control"
-          formControlName="cricketerName"
-          placeholder="e.g., Rohit Sharma"
-          [class.is-invalid]="f.cricketerName.touched && f.cricketerName.invalid"
-          [attr.aria-invalid]="f.cricketerName.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.cricketerName.touched && f.cricketerName.invalid">
-          <div *ngIf="f.cricketerName.errors?.['required']">Name is required.</div>
-          <div *ngIf="f.cricketerName.errors?.['minlength']">Name must be at least 2 characters.</div>
-        </div>
-      </div>
-
-      <!-- Age -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="age">Age</label>
-        <input
-          id="age"
-          type="number"
-          class="form-control"
-          formControlName="age"
-          placeholder="e.g., 30"
-          [class.is-invalid]="f.age.touched && f.age.invalid"
-          [attr.aria-invalid]="f.age.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.age.touched && f.age.invalid">
-          <div *ngIf="f.age.errors?.['required']">Age is required.</div>
-          <div *ngIf="f.age.errors?.['min']">Age must be ≥ 15.</div>
-          <div *ngIf="f.age.errors?.['max']">Age must be ≤ 60.</div>
-        </div>
-      </div>
-
-      <!-- Nationality -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="nationality">Nationality</label>
-        <input
-          id="nationality"
-          type="text"
-          class="form-control"
-          formControlName="nationality"
-          placeholder="e.g., India"
-          [class.is-invalid]="f.nationality.touched && f.nationality.invalid"
-          [attr.aria-invalid]="f.nationality.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.nationality.touched && f.nationality.invalid">
-          <div *ngIf="f.nationality.errors?.['required']">Nationality is required.</div>
-          <div *ngIf="f.nationality.errors?.['minlength']">Nationality must be at least 2 characters.</div>
-        </div>
-      </div>
-
-      <!-- Experience -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="experience">Experience (years)</label>
-        <input
-          id="experience"
-          type="number"
-          class="form-control"
-          formControlName="experience"
-          placeholder="e.g., 5"
-          [class.is-invalid]="f.experience.touched && f.experience.invalid"
-          [attr.aria-invalid]="f.experience.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.experience.touched && f.experience.invalid">
-          <div *ngIf="f.experience.errors?.['required']">Experience is required.</div>
-          <div *ngIf="f.experience.errors?.['min']">Experience must be ≥ 0.</div>
-          <div *ngIf="f.experience.errors?.['max']">Experience seems too high.</div>
-        </div>
-      </div>
-
-      <!-- Role -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="role">Role</label>
-        <select
-          id="role"
-          class="form-select"
-          formControlName="role"
-          [class.is-invalid]="f.role.touched && f.role.invalid"
-          [attr.aria-invalid]="f.role.invalid"
-        >
-          <option value="" disabled>Select role</option>
-          <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
-        </select>
-        <div class="invalid-feedback" *ngIf="f.role.touched && f.role.invalid">
-          <div *ngIf="f.role.errors?.['required']">Role is required.</div>
-        </div>
-      </div>
-
-      <!-- Runs -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="totalRuns">Total Runs</label>
-        <input
-          id="totalRuns"
-          type="number"
-          class="form-control"
-          formControlName="totalRuns"
-          placeholder="e.g., 3500"
-          [class.is-invalid]="f.totalRuns.touched && f.totalRuns.invalid"
-          [attr.aria-invalid]="f.totalRuns.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.totalRuns.touched && f.totalRuns.invalid">
-          <div *ngIf="f.totalRuns.errors?.['required']">Total Runs is required.</div>
-          <div *ngIf="f.totalRuns.errors?.['min']">Total Runs must be ≥ 0.</div>
-        </div>
-      </div>
-
-      <!-- Wickets -->
-      <div class="col-12 col-md-4">
-        <label class="form-label" for="totalWickets">Total Wickets</label>
-        <input
-          id="totalWickets"
-          type="number"
-          class="form-control"
-          formControlName="totalWickets"
-          placeholder="e.g., 120"
-          [class.is-invalid]="f.totalWickets.touched && f.totalWickets.invalid"
-          [attr.aria-invalid]="f.totalWickets.invalid"
-        />
-        <div class="invalid-feedback" *ngIf="f.totalWickets.touched && f.totalWickets.invalid">
-          <div *ngIf="f.totalWickets.errors?.['required']">Total Wickets is required.</div>
-          <div *ngIf="f.totalWickets.errors?.['min']">Total Wickets must be ≥ 0.</div>
-        </div>
+    <!-- Cricketer Name -->
+    <div>
+      <label for="cricketerName">Cricketer Name</label>
+      <input id="cricketerName" formControlName="cricketerName" type="text" placeholder="Enter Cricketer Name">
+      <div *ngIf="cricketerForm.get('cricketerName')?.invalid && cricketerForm.get('cricketerName')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('cricketerName')?.hasError('required')">Cricketer Name is required.</small>
       </div>
     </div>
 
-    <!-- Messages -->
-    <div class="mt-3">
-      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <!-- Age -->
+    <div>
+      <label for="age">Age</label>
+      <input id="age" formControlName="age" type="number" placeholder="Enter Age">
+      <div *ngIf="cricketerForm.get('age')?.invalid && cricketerForm.get('age')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('age')?.hasError('required')">Age is required.</small>
+        <small *ngIf="cricketerForm.get('age')?.hasError('min')">Cricketer must be at least 18 years old.</small>
+      </div>
     </div>
 
-    <!-- Buttons -->
-    <div class="mt-2 d-flex gap-2">
-      <button type="submit" class="btn btn-primary" [disabled]="cricketerForm.invalid">
-        Create Cricketer
-      </button>
-      <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Reset</button>
+    <!-- Nationality -->
+    <div>
+      <label for="nationality">Nationality</label>
+      <input id="nationality" formControlName="nationality" type="text" placeholder="Enter Nationality">
+      <div *ngIf="cricketerForm.get('nationality')?.invalid && cricketerForm.get('nationality')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('nationality')?.hasError('required')">Nationality is required.</small>
+      </div>
     </div>
+
+    <!-- Experience -->
+    <div>
+      <label for="experience">Experience</label>
+      <input id="experience" formControlName="experience" type="number" placeholder="Enter Experience">
+      <div *ngIf="cricketerForm.get('experience')?.invalid && cricketerForm.get('experience')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('experience')?.hasError('required')">Experience is required.</small>
+        <small *ngIf="cricketerForm.get('experience')?.hasError('min')">Experience cannot be negative.</small>
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div>
+      <label for="role">Role</label>
+      <input id="role" formControlName="role" type="text" placeholder="Enter Role">
+      <div *ngIf="cricketerForm.get('role')?.invalid && cricketerForm.get('role')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('role')?.hasError('required')">Role is required.</small>
+      </div>
+    </div>
+
+    <!-- Total Runs -->
+    <div>
+      <label for="totalRuns">Total Runs</label>
+      <input id="totalRuns" formControlName="totalRuns" type="number" placeholder="Enter Total Runs">
+      <div *ngIf="cricketerForm.get('totalRuns')?.invalid && cricketerForm.get('totalRuns')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('totalRuns')?.hasError('min')">Total Runs cannot be negative.</small>
+      </div>
+    </div>
+
+    <!-- Total Wickets -->
+    <div>
+      <label for="totalWickets">Total Wickets</label>
+      <input id="totalWickets" formControlName="totalWickets" type="number" placeholder="Enter Total Wickets">
+      <div *ngIf="cricketerForm.get('totalWickets')?.invalid && cricketerForm.get('totalWickets')?.touched" class="error">
+        <small *ngIf="cricketerForm.get('totalWickets')?.hasError('min')">Total Wickets cannot be negative.</small>
+      </div>
+    </div>
+
+    <!-- Submit and Reset Buttons -->
+    <button type="submit" [disabled]="cricketerForm.invalid">Create Cricketer</button>
+    <a routerLink="/ipl" class="task-list" class="task-list">Dashboard</a>
   </form>
+
+  <!-- Display success or error messages -->
+  <div *ngIf="successMessage" class="success">
+    <p>{{ successMessage }}</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
 </div>

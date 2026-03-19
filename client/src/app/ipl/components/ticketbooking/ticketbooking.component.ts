@@ -1,73 +1,78 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IplService } from '../../services/ipl.service';
+import { Match } from '../../types/Match';
 import { TicketBooking } from '../../types/TicketBooking';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-ticket-booking',
+  selector: 'app-ticketbooking',
   templateUrl: './ticketbooking.component.html',
-  styleUrls: ['./ticketbooking.component.scss'],
+  styleUrls: ['./ticketbooking.component.scss']
 })
 export class TicketBookingComponent implements OnInit {
-  // Keep the original internal name
-  private bookingForm!: FormGroup;
-
-  // ✅ Public alias expected by tests
-  public get ticketBookingForm(): FormGroup {
-    return this.bookingForm;
-  }
-
+  ticketBookingForm!: FormGroup;
   ticketBooking: TicketBooking | null = null;
-
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  matches: Match[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private iplService: IplService
+  ) {}
 
   ngOnInit(): void {
-    this.bookingForm = this.fb.group({
-      bookingId: [null, [Validators.required, Validators.min(1)]],
+    this.loadMatches();
+    this.ticketBookingForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      matchId: [null, [Validators.required, Validators.min(1)]],
-      numberOfTickets: [1, [Validators.required, Validators.min(1)]],
+      match: [null, Validators.required],
+      numberOfTickets: [null, [Validators.required, Validators.min(1)]]
     });
   }
 
-  // Return controls from the alias so template remains clear
-  get f(): { [key: string]: AbstractControl } {
-    return this.ticketBookingForm.controls;
+  loadMatches(): void {
+    this.iplService.getAllMatches().subscribe((matches) => {
+      this.matches = matches;
+    });
+  }
+  
+  onSubmit(): void {
+    if (this.ticketBookingForm.valid) {
+      this.bookTicket();
+    } else {
+      this.errorMessage = 'Please fill out all required fields correctly.';
+      this.successMessage = null;
+    }
   }
 
-  onSubmit(): void {
-    this.successMessage = null;
-    this.errorMessage = null;
-
-    if (this.ticketBookingForm.invalid) {
-      this.errorMessage ='Please fill out all required fields correctly.';
-      this.ticketBookingForm.markAllAsTouched();
-      return;
-    }
-
-    const payload: TicketBooking = {
-        bookingId: this.f['bookingId'].value,
-        email: this.f['email'].value,
-        matchId: this.f['matchId'].value,
-        numberOfTickets: this.f['numberOfTickets'].value,
-        displayInfo: function (): void {
-            throw new Error('Function not implemented.');
-        }
-    };
-
-    console.log('Ticket booking submitted:', payload);
-
-    this.ticketBooking = payload;
-    this.successMessage = 'Tickets booked successfully!';
-    this.ticketBookingForm.reset({ numberOfTickets: 1 });
+  private bookTicket(): void {
+    this.iplService.createBooking(this.ticketBookingForm.value).subscribe(
+      (response: TicketBooking) => {
+        this.successMessage = 'Ticket booked successfully!';
+        this.errorMessage = null;
+        this.resetForm();
+      },
+      (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
+    );
   }
 
   resetForm(): void {
-    this.ticketBookingForm.reset({ numberOfTickets: 1 });
+    this.ticketBookingForm.reset();
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.error instanceof ErrorEvent) {
+      this.errorMessage = `Client-side error: ${error.error.message}`;
+    } else {
+      this.errorMessage = `Server-side error: ${error.status} ${error.message}`;
+      if (error.status === 400) {
+        this.errorMessage = 'Bad request. Please check your input.';
+      }
+    }
     this.successMessage = null;
-    this.errorMessage = null;
-    this.ticketBooking = null;
+    console.error('An error occurred:', this.errorMessage);
   }
 }

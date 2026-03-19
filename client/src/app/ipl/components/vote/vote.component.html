@@ -1,64 +1,60 @@
-<div class="container py-4">
-  <h2 class="mb-3">Submit Your Vote</h2>
+<div class="vote-form-container">
+  <h2>Submit Your Vote</h2>
 
-  <form [formGroup]="voteForm" (ngSubmit)="onSubmit()" novalidate>
-    <div class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label" for="voteId">Vote ID</label>
-        <input id="voteId" type="number" class="form-control" formControlName="voteId" />
-        <div class="text-danger mt-1" *ngIf="f['voteId'].touched && f['voteId'].invalid">
-          <small *ngIf="f['voteId'].errors?.['required']">Vote ID is required.</small>
-          <small *ngIf="f['voteId'].errors?.['min']">Vote ID must be at least 1.</small>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label" for="email">Email</label>
-        <input id="email" type="email" class="form-control" formControlName="email" placeholder="name@example.com" />
-        <div class="text-danger mt-1" *ngIf="f['email'].touched && f['email'].invalid">
-          <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
-          <small *ngIf="f['email'].errors?.['email']">Please enter a valid email.</small>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label" for="category">Category</label>
-        <select id="category" class="form-select" formControlName="category">
-          <option value="" disabled>Select a category</option>
-          <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
-        </select>
-        <div class="text-danger mt-1" *ngIf="f['category'].touched && f['category'].invalid">
-          <small>Category is required.</small>
-        </div>
-      </div>
-
-      <!-- Team ID (required when category = Team) -->
-      <div class="col-md-6">
-        <label class="form-label" for="teamId">Team ID</label>
-        <input id="teamId" type="number" class="form-control" formControlName="teamId" />
-        <div class="text-danger mt-1" *ngIf="f['teamId'].touched && f['teamId'].invalid">
-          <small *ngIf="f['teamId'].errors?.['required']">Team ID is required for Team category.</small>
-          <small *ngIf="f['teamId'].errors?.['min']">Team ID must be at least 1.</small>
-        </div>
-      </div>
-
-      <!-- Cricketer ID (required when category != Team) -->
-      <div class="col-md-6">
-        <label class="form-label" for="cricketerId">Cricketer ID</label>
-        <input id="cricketerId" type="number" class="form-control" formControlName="cricketerId" />
-        <div class="text-danger mt-1" *ngIf="f['cricketerId'].touched && f['cricketerId'].invalid">
-          <small *ngIf="f['cricketerId'].errors?.['required']">Cricketer ID is required for player categories.</small>
-          <small *ngIf="f['cricketerId'].errors?.['min']">Cricketer ID must be at least 1.</small>
-        </div>
+  <form [formGroup]="voteForm" (ngSubmit)="onSubmit()">
+    <!-- Email field -->
+    <div>
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="email" placeholder="Enter Email">
+      <div *ngIf="voteForm.get('email')?.invalid && voteForm.get('email')?.touched" class="error">
+        <small>Email is required and must be valid.</small>
       </div>
     </div>
 
-    <div class="mt-4 d-flex gap-2">
-      <button class="btn btn-primary" type="submit" [disabled]="voteForm.invalid">Submit Vote</button>
-      <button class="btn btn-outline-secondary" type="button" (click)="resetForm()">Reset</button>
+    <!-- Category selection -->
+    <div>
+      <label for="category">Category:</label>
+      <select formControlName="category">
+        <option value="">Select Category</option>
+        <option value="Cricketer">Cricketer</option>
+        <option value="Team">Team</option>
+      </select>
+      <div *ngIf="voteForm.get('category')?.invalid && voteForm.get('category')?.touched" class="error">
+        <small>Category is required.</small>
+      </div>
     </div>
+
+    <!-- Cricketer Selection, visible only when category is Cricketer -->
+    <div *ngIf="voteForm.get('category')?.value === 'Cricketer'">
+      <label for="cricketer">Cricketer</label>
+      <select id="cricketer" formControlName="cricketer">
+        <option value="">Select a Cricketer</option>
+        <option *ngFor="let cricketer of cricketers" [ngValue]="cricketer">
+          {{ cricketer.cricketerName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Team Selection, visible only when category is Team -->
+    <div *ngIf="voteForm.get('category')?.value === 'Team'">
+      <label for="team">Team</label>
+      <select id="team" formControlName="team">
+        <option value="">Select a Team</option>
+        <option *ngFor="let team of teams" [ngValue]="team">
+          {{ team.teamName }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="voteForm.invalid">Submit Vote</button>
+    <a routerLink="/ipl" class="task-list" class="task-list">Dashboard</a>
   </form>
 
-  <div class="alert alert-success mt-3" *ngIf="successMessage">{{ successMessage }}</div>
-  <div class="alert alert-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <!-- Success/Error messages -->
+  <div *ngIf="successMessage" class="success">
+    <p>{{ successMessage }}</p>
+  </div>
+  <div *ngIf="errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
 </div>
