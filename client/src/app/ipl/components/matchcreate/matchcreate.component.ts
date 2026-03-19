@@ -1,21 +1,21 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, throwError } from 'rxjs';
 import { IplService } from '../../services/ipl.service';
+import { Match } from '../../types/Match';
 import { Team } from '../../types/Team';
 
 @Component({
-  selector: 'app-teamcreate',
-  templateUrl: './teamcreate.component.html',
-  styleUrls: ['./teamcreate.component.scss']
+  selector: 'app-matchcreate',
+  templateUrl: './matchcreate.component.html',
+  styleUrls: ['./matchcreate.component.scss']
 })
-export class TeamCreateComponent implements OnInit {
-  teamForm!: FormGroup;
+export class MatchCreateComponent implements OnInit {
+  matchForm!: FormGroup;
+  match: Match | null = null;
   successMessage: string | null = null;
   errorMessage: string | null = null;
-  currentYear: number = new Date().getFullYear();
-  team: Team | null = null;
+  teams: Team[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,26 +23,27 @@ export class TeamCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.loadTeams();
+    this.matchForm = this.formBuilder.group({
+      firstTeam: [null, Validators.required],
+      secondTeam: [null, Validators.required],
+      matchDate: [null, Validators.required],
+      venue: [''],
+      result: [''],
+      status: ['', Validators.required]
+    });
   }
 
-  // Initialize form with validation rules
-  private initializeForm(): void {
-    this.teamForm = this.formBuilder.group({
-      teamName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]+$/)]], // No special characters
-      location: ['', [Validators.required]],
-      ownerName: ['', [Validators.required, Validators.minLength(2)]],
-      establishmentYear: [
-        null,
-        [Validators.required, Validators.min(1900), Validators.max(this.currentYear)]
-      ]
+  loadTeams(): void {
+    this.iplService.getAllTeams().subscribe((teams) => {
+      this.teams = teams;
     });
   }
 
   // Form submission handler
   onSubmit(): void {
-    if (this.teamForm.valid) {
-      this.addTeam();
+    if (this.matchForm.valid) {
+      this.addMatch();
     } else {
       this.errorMessage = 'Please fill out all required fields correctly.';
       this.successMessage = null;
@@ -50,14 +51,13 @@ export class TeamCreateComponent implements OnInit {
   }
 
   // Method to call backend service and handle the response
-  private addTeam(): void {
-    this.iplService.addTeam(this.teamForm.value).subscribe(
-      (response: Team) => {
-        // Ensure that we are treating the response correctly as a Team
-        this.team = response;  // This should be of type Team
-        this.successMessage = 'Team created successfully!';
+  private addMatch(): void {
+    this.iplService.addMatch(this.matchForm.value).subscribe(
+      (response: Match) => {
+        this.match = response;  
+        this.successMessage = 'Match created successfully!';
         this.errorMessage = null;
-        console.log('Team Created: ', this.team);
+        console.log('Match Created: ', this.match);
         this.resetForm();
       },
       (error: HttpErrorResponse) => {
@@ -66,15 +66,8 @@ export class TeamCreateComponent implements OnInit {
     );
   }
 
-  // Reset the form after successful submission
   resetForm(): void {
-    this.teamForm.reset({
-      teamId: null,
-      teamName: '',
-      location: '',
-      ownerName: '',
-      establishmentYear: this.currentYear
-    });
+    this.matchForm.reset();
   }
 
   // Error handling method

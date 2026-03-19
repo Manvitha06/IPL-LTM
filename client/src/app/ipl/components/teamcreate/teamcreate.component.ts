@@ -1,91 +1,83 @@
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, throwError } from 'rxjs';
 import { IplService } from '../../services/ipl.service';
 import { Team } from '../../types/Team';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-teamedit',
-  templateUrl: './teamedit.component.html',
-  styleUrls: ['./teamedit.component.scss']
+  selector: 'app-teamcreate',
+  templateUrl: './teamcreate.component.html',
+  styleUrls: ['./teamcreate.component.scss']
 })
-export class TeamEditComponent implements OnInit {
+export class TeamCreateComponent implements OnInit {
   teamForm!: FormGroup;
   successMessage: string | null = null;
   errorMessage: string | null = null;
   currentYear: number = new Date().getFullYear();
   team: Team | null = null;
-  teamId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
-    private iplService: IplService,
-    private route: ActivatedRoute,
+    private iplService: IplService
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  // Initialize form with validation rules
+  private initializeForm(): void {
     this.teamForm = this.formBuilder.group({
-        teamName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]+$/)]], // No special characters
-        location: ['', [Validators.required]],
-        ownerName: ['', [Validators.required, Validators.minLength(2)]],
-        establishmentYear: [
-          null,
-          [Validators.required, Validators.min(1900), Validators.max(this.currentYear)]
-        ]
-    });
-    this.route.params.subscribe(params => {
-        console.log(params);
-        this.teamId = params['teamId'];
-        this.loadTeamDetails(this.teamId);
+      teamName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]+$/)]], // No special characters
+      location: ['', [Validators.required]],
+      ownerName: ['', [Validators.required, Validators.minLength(2)]],
+      establishmentYear: [
+        null,
+        [Validators.required, Validators.min(1900), Validators.max(this.currentYear)]
+      ]
     });
   }
 
-  loadTeamDetails(teamId: number): void {
-    this.iplService.getTeamById(teamId).subscribe({
-        next: (response) => {
-            this.team = response;
-            this.teamForm.patchValue({
-                teamName: response.teamName,
-                location: response.location,
-                ownerName: response.ownerName,
-                establishmentYear: response.establishmentYear
-            })
-        },
-        error: (error) => {
-            this.handleError(error);
-        }
-    });
-}
-
+  // Form submission handler
   onSubmit(): void {
     if (this.teamForm.valid) {
-        const updatedTeam: Team = {
-          teamId: this.teamId,
-          teamName: this.teamForm.value.teamName,
-          location: this.teamForm.value.location,
-          ownerName: this.teamForm.value.ownerName,
-          establishmentYear: this.teamForm.value.establishmentYear,
-          displayInfo: function (): void {}
-        }
-        this.iplService.updateTeam(updatedTeam).subscribe({
-            next: (response) => {
-              this.team = response;
-              this.errorMessage = null;
-              console.log(this.team);
-              this.teamForm.reset();
-            },
-            error: (error) => {
-              this.handleError(error);
-            },
-            complete: () => {
-              this.successMessage = 'Team updated successfully!';
-            }
-        });
-    } 
+      this.addTeam();
+    } else {
+      this.errorMessage = 'Please fill out all required fields correctly.';
+      this.successMessage = null;
+    }
   }
 
+  // Method to call backend service and handle the response
+  private addTeam(): void {
+    this.iplService.addTeam(this.teamForm.value).subscribe(
+      (response: Team) => {
+        // Ensure that we are treating the response correctly as a Team
+        this.team = response;  // This should be of type Team
+        this.successMessage = 'Team created successfully!';
+        this.errorMessage = null;
+        console.log('Team Created: ', this.team);
+        this.resetForm();
+      },
+      (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
+    );
+  }
+
+  // Reset the form after successful submission
+  resetForm(): void {
+    this.teamForm.reset({
+      teamId: null,
+      teamName: '',
+      location: '',
+      ownerName: '',
+      establishmentYear: this.currentYear
+    });
+  }
+
+  // Error handling method
   private handleError(error: HttpErrorResponse): void {
     if (error.error instanceof ErrorEvent) {
       this.errorMessage = `Client-side error: ${error.error.message}`;
