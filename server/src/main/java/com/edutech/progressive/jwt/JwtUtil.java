@@ -1,4 +1,3 @@
-// src/main/java/com/edutech/progressive/jwt/JwtUtil.java
 package com.edutech.progressive.jwt;
 
 import com.edutech.progressive.entity.User;
@@ -17,7 +16,7 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public JwtUtil(UserRepository userRepository) {
@@ -25,7 +24,8 @@ public class JwtUtil {
     }
 
     private final String secret = "secretKey000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-    private final int expiration = 86400; // seconds
+
+    private final int expiration = 86400;
 
     public String generateToken(String username) {
         Date now = new Date();
@@ -33,11 +33,13 @@ public class JwtUtil {
         User user = userRepository.findByUsername(username);
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRole()); // "ADMIN" or "USER"
+        claims.put("sub", username);
+
+        // Assign role based on user type
+        claims.put("role", user.getRole());
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)       // ✅ critical: set subject
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -45,22 +47,24 @@ public class JwtUtil {
     }
 
     public Claims extractAllClaims(String token) {
+        Claims claims;
         try {
-            return Jwts.parser()
+            claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            return null;
+            claims = null;
         }
+        return claims;
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser()
+        Claims claims = Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
+        return claims.getSubject();
     }
 
     public boolean isTokenExpired(String token) {
@@ -74,6 +78,6 @@ public class JwtUtil {
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username != null && username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

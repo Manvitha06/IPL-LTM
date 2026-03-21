@@ -1,18 +1,16 @@
 package com.edutech.progressive.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.edutech.progressive.dao.MatchDAO;
 import com.edutech.progressive.entity.Match;
 import com.edutech.progressive.service.MatchService;
 
-public class MatchServiceImplJdbc implements MatchService {
-
-   
-
-    private final MatchDAO matchDAO;
-
+public class MatchServiceImplJdbc implements MatchService  {
+    MatchDAO matchDAO;
+    
     public MatchServiceImplJdbc(MatchDAO matchDAO) {
         this.matchDAO = matchDAO;
     }
@@ -34,12 +32,12 @@ public class MatchServiceImplJdbc implements MatchService {
 
     @Override
     public void updateMatch(Match match) throws SQLException {
-        matchDAO.updateMatch(match);
+       matchDAO.updateMatch(match);
     }
 
     @Override
     public void deleteMatch(int matchId) throws SQLException {
         matchDAO.deleteMatch(matchId);
     }
-}
 
+}

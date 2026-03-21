@@ -1,45 +1,40 @@
 package com.edutech.progressive.controller;
-
+ 
 import com.edutech.progressive.entity.Vote;
 import com.edutech.progressive.service.impl.VoteServiceImpl;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
+ 
 import java.util.List;
 import java.util.Map;
+ 
 @RestController
 @RequestMapping("/vote")
-@CrossOrigin
 public class VoteController {
-
-    private final VoteServiceImpl voteService;
-
-    public VoteController(VoteServiceImpl voteService) {
-        this.voteService = voteService;
-    }
-
-    // GET /vote
+ 
+    @Autowired
+    VoteServiceImpl voteService;
+ 
     @GetMapping
     public ResponseEntity<List<Vote>> getAllVotes() {
-        return voteService.getAllVotes();
+        List<Vote> voteList = voteService.getAllVotes();
+        return new ResponseEntity<>(voteList, HttpStatus.OK);
     }
-
-    // POST /vote
+ 
     @PostMapping
     public ResponseEntity<Integer> createVote(@RequestBody Vote vote) {
-        return voteService.createVote(vote);
+        int id = voteService.createVote(vote);
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
-
-    // GET /vote/count
+ 
+    // Each key (k) represents a category (categories - “Team”, “Batsman”, “Bowler”, “All-rounder” and “Wicketkeeper”)
+    // and each value (v) represents the total number of votes for that category.
     @GetMapping("/count")
     public ResponseEntity<Map<String, Long>> getVotesCountOfAllCategories() {
-        return voteService.getVotesCountOfAllCategories();
+        Map<String, Long> countMap = voteService.getVotesCountOfAllCategories();
+        return new ResponseEntity<>(countMap, HttpStatus.OK);
     }
-
+ 
 }

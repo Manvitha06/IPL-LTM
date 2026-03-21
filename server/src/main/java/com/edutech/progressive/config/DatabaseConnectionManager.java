@@ -1,48 +1,45 @@
 package com.edutech.progressive.config;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.management.RuntimeErrorException;
 
 public class DatabaseConnectionManager {
-public static Properties properties=new  Properties();
-private static void loadProperties(){
-try(InputStream input=DatabaseConnectionManager.class.getClassLoader().getResourceAsStream("application.properties"))
-{
-    if(input==null){
-        throw new RuntimeException("application.properties file not found");
+    private static Properties properties = new Properties();
+    private static void loadProperties(){    
+    try {
+            // load application.properties from classpath
+            InputStream in = DatabaseConnectionManager.class
+                    .getClassLoader()
+                    .getResourceAsStream("application.properties");
 
-    }
-    properties.load(input);
-}catch(IOException e)
-{
-    throw new RuntimeException("Error reading application.properties file",e);
-}
+            if (in == null) {
+                throw new RuntimeException("application.properties not found in resources folder!");
+            }
 
-}
-public static Connection getConnection(){
-    try{
-        if(properties.isEmpty())
-        {
-            loadProperties();
+            properties.load(in);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load properties file", e);
         }
-  
- loadProperties();
-            String url = properties.getProperty("spring.datasource.url");
-            String username = properties.getProperty("spring.datasource.username");
-            String password = properties.getProperty("spring.datasource.password");
-            String driver = properties.getProperty("spring.datasource.driver-class-name");
-
-        Class.forName(driver);
-        return DriverManager.getConnection(url, username, password);
     }
-    catch(Exception e)
-    {
-        throw new RuntimeException("Failed to create database cannection",e);
+    public static Connection getConnection() throws RuntimeException{
+        loadProperties();
+        final String url=properties.getProperty("spring.datasource.url");
+        final String username= properties.getProperty("spring.datasource.username");
+        final String password= properties.getProperty("spring.datasource.password");
+        final String driver=properties.getProperty("spring.datasource.driver-class-name");
+      if(driver!=null){
+        try {
+            Class.forName(driver);
+            return DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+      }
+      return null; 
     }
-}
 }

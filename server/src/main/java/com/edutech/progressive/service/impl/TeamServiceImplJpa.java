@@ -1,104 +1,78 @@
-// src/main/java/com/edutech/progressive/service/impl/TeamServiceImplJpa.java
 package com.edutech.progressive.service.impl;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Team;
 import com.edutech.progressive.exception.TeamAlreadyExistsException;
 import com.edutech.progressive.exception.TeamDoesNotExistException;
-import com.edutech.progressive.repository.*;
+import com.edutech.progressive.repository.CricketerRepository;
+import com.edutech.progressive.repository.MatchRepository;
+import com.edutech.progressive.repository.TeamRepository;
+import com.edutech.progressive.repository.TicketBookingRepository;
+import com.edutech.progressive.repository.VoteRepository;
 import com.edutech.progressive.service.TeamService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
 @Service
 public class TeamServiceImplJpa implements TeamService {
-
-    // ✅ Field injection so Spring can wire deps with no-arg ctor
     @Autowired
+    private MatchRepository matchRepo;
+    @Autowired
+    private CricketerRepository cricketerRepository;
     private TeamRepository teamRepository;
-
-    @Autowired(required = false)
-    private CricketerRepository cricketerRepository;        // optional for tests
-
-    @Autowired(required = false)
-    private MatchRepository matchRepository;                 // optional for tests
-
-    @Autowired(required = false)
-    private TicketBookingRepository ticketBookingRepository; // optional for tests
-
-    @Autowired(required = false)
-    private VoteRepository voteRepository;                   // optional for tests
-
-    // ✅ Needed by Spring test contexts that expect a default ctor
-    public TeamServiceImplJpa() {}
-
-    // ✅ Needed by DayThirteenTest which calls new TeamServiceImplJpa(teamRepository)
+    @Autowired
+    private VoteRepository voteRepository;
+    @Autowired
+    private TicketBookingRepository ticketBookingRepository;
+    @Autowired
     public TeamServiceImplJpa(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
-
-    @Override
-    public List<Team> getAllTeams() throws SQLException {
+    public List<Team> getAllTeams() throws SQLException{
         return teamRepository.findAll();
     }
-
-    @Override
-    public int addTeam(Team team) throws TeamAlreadyExistsException {
-        Team existing = teamRepository.findByTeamName(team.getTeamName());
-        if (existing != null) {
-            throw new TeamAlreadyExistsException(
-                "Team with name '" + team.getTeamName() + "' already exists");
+    public int addTeam(Team team) throws SQLException, TeamAlreadyExistsException{
+       Team t1=teamRepository.findByTeamName(team.getTeamName());
+        if(t1!=null){
+            throw new TeamAlreadyExistsException("Team with the name already exists!");
         }
         return teamRepository.save(team).getTeamId();
     }
-
-    @Override
-    public List<Team> getAllTeamsSortedByName() throws SQLException {
-        List<Team> teams = teamRepository.findAll();
-        Collections.sort(teams);
+    public List<Team> getAllTeamsSortedByName() throws SQLException{
+        List<Team> teams= teamRepository.findAll();
+        teams.sort(Comparator.comparing(Team:: getTeamName));
         return teams;
     }
-
-    @Override
-    public Team getTeamById(int teamId) throws TeamDoesNotExistException {
-        Team team = teamRepository.findByTeamId(teamId);
-        if (team == null) {
-            throw new TeamDoesNotExistException("Team with ID " + teamId + " does not exist");
+    public Team getTeamById(int teamId) throws SQLException, TeamDoesNotExistException{
+        Team t1= teamRepository.findByTeamId(teamId);
+        if(t1==null){
+            throw new TeamDoesNotExistException("Team with given ID does not exist!");
         }
-        return team;
+        return t1;
     }
-
-    @Override
-    public void updateTeam(Team team) throws TeamAlreadyExistsException {
-        Team existing = teamRepository.findByTeamId(team.getTeamId());
-        if (existing == null) {
-            throw new TeamDoesNotExistException("Team with ID " + team.getTeamId() + " does not exist");
+    public void updateTeam(Team team) throws SQLException, TeamDoesNotExistException, TeamAlreadyExistsException{
+        Team old= teamRepository.findById(team.getTeamId()).orElseThrow(()-> new TeamDoesNotExistException("Team with given ID Does not exist!"));
+         if(old.getTeamName().equals(teamRepository.findByTeamName(team.getTeamName()).getTeamName())){
+            throw new TeamAlreadyExistsException("Team with the name already exists!");
         }
-        Team sameName = teamRepository.findByTeamName(team.getTeamName());
-        if (sameName != null && !Objects.equals(sameName.getTeamId(), team.getTeamId())) {
-            throw new TeamAlreadyExistsException(
-                "Another team with name '" + team.getTeamName() + "' already exists");
-        }
+        old.setEstablishmentYear(team.getEstablishmentYear());
+        old.setLocation(team.getLocation());
+        old.setOwnerName(team.getOwnerName());
+        old.setTeamName(team.getTeamName());
         teamRepository.save(team);
+
     }
-
-    @Override
-public void deleteTeam(int teamId) throws SQLException {
-    Team team = teamRepository.findByTeamId(teamId);
-    if (team == null) {
-        throw new TeamDoesNotExistException("Team with ID " + teamId + " does not exist");
+    public void deleteTeam (int teamId) throws SQLException{
+        matchRepo.deleteByFirstTeamId(teamId);
+        matchRepo.deleteBySecondTeamId(teamId);
+        cricketerRepository.deleteByTeamId(teamId);
+        voteRepository.deleteByTeamId(teamId);
+        ticketBookingRepository.deleteByTeamId(teamId);
+        teamRepository.deleteById(teamId);
     }
-
-    // ✅ delete children first (null-safe for tests that inject only TeamRepository)
-    if (voteRepository != null)            voteRepository.deleteByTeamId(teamId);
-    if (ticketBookingRepository != null)   ticketBookingRepository.deleteByTeamId(teamId);
-    if (matchRepository != null)           matchRepository.deleteByTeamId(teamId);
-    if (cricketerRepository != null)       cricketerRepository.deleteByTeamId(teamId);
-
-    teamRepository.deleteById(teamId);
 }
-    }

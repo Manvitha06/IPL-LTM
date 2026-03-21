@@ -13,122 +13,104 @@ import com.edutech.progressive.entity.Team;
 
 public class TeamDAOImpl implements TeamDAO {
 
- 
- 
-    @Override
-    public int addTeam(Team t) throws SQLException {
-        String sql = "INSERT INTO team (team_name, location, owner_name, establishment_year) VALUES (?,?,?,?)";
-        Connection conn = null;
-        PreparedStatement ps = null;
-      
-        try {
-            conn = DatabaseConnectionManager.getConnection();
-            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, t.getTeamName());
-            ps.setString(2, t.getLocation());
-            ps.setString(3, t.getOwnerName());
-            ps.setInt(4, t.getEstablishmentYear());
-            ps.executeUpdate();
-            ResultSet rs=ps.getGeneratedKeys();
-            if(rs.next())
-            {int i=rs.getInt(1);
-              t.setTeamId(i);
-              return i;
-            }
-          
-        } catch (SQLException e) {
-            throw e;
-        } 
-        return 0;
+    private Connection connection;
+     
+
+    public TeamDAOImpl() {
+        this.connection= DatabaseConnectionManager.getConnection();
     }
 
     @Override
-    public Team getTeamById(int teamId) throws SQLException {
-        String sql = "SELECT team_id, team_name, location, owner_name, establishment_year FROM team WHERE team_id = ?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Team t = null;
+    public int addTeam(Team team) {
+        String query="insert into team(team_name,location,owner_name,establishment_year) values(?,?,?,?)";
         try {
-            conn = DatabaseConnectionManager.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, teamId);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                t = new Team();
-                t.setTeamId(rs.getInt("team_id"));
-                t.setTeamName(rs.getString("team_name"));
-                t.setLocation(rs.getString("location"));
-                t.setOwnerName(rs.getString("owner_name"));
-                t.setEstablishmentYear(rs.getInt("establishment_year"));
+            PreparedStatement ps= connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, team.getTeamName());
+            ps.setString(2, team.getLocation());
+            ps.setString(3, team.getOwnerName());
+            ps.setInt(4, team.getEstablishmentYear());
+            int c= ps.executeUpdate();
+            if(c>0){
+                ResultSet rs= ps.getGeneratedKeys();
+                rs.next();
+                team.setTeamId(rs.getInt(1));
+                return team.getTeamId();
             }
-            return t;
+
         } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (rs != null) try { rs.close(); } catch (Exception ignored) {}
-            if (ps != null) try { ps.close(); } catch (Exception ignored) {}
-            if (conn != null) try { conn.close(); } catch (Exception ignored) {}
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+        return -1;
     }
 
     @Override
-    public void updateTeam(Team t) throws SQLException {
-        String sql = "UPDATE team SET team_name=?, location=?, owner_name=?, establishment_year=? WHERE team_id=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
+    public Team getTeamById(int teamId) {
+        String query="select *from team where team_id=?";
         try {
-            conn = DatabaseConnectionManager.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, t.getTeamName());
-            ps.setString(2, t.getLocation());
-            ps.setString(3, t.getOwnerName());
-            ps.setInt(4, t.getEstablishmentYear());
-            ps.setInt(5, t.getTeamId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw e;
-        } 
-    }
-
-    @Override
-    public void deleteTeam(int teamId) throws SQLException {
-        String sql = "DELETE FROM team WHERE team_id=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = DatabaseConnectionManager.getConnection();
-            ps = conn.prepareStatement(sql);
+            PreparedStatement ps= connection.prepareStatement(query);
             ps.setInt(1, teamId);
-            ps.executeUpdate();
+            ResultSet rs=ps.executeQuery();
+            if(rs.next()){
+                Team t1= new Team(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                return t1;
+            }
         } catch (SQLException e) {
-            throw e;
-        } 
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public List<Team> getAllTeams() throws SQLException {
-        String sql = "SELECT team_id, team_name, location, owner_name, establishment_year FROM team";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        List<Team> list = new ArrayList<>();
-        try {
-            conn = DatabaseConnectionManager.getConnection();
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Team t = new Team();
-                t.setTeamId(rs.getInt("team_id"));
-                t.setTeamName(rs.getString("team_name"));
-                t.setLocation(rs.getString("location"));
-                t.setOwnerName(rs.getString("owner_name"));
-                t.setEstablishmentYear(rs.getInt("establishment_year"));
-                list.add(t);
-            }
-            return list;
-        } catch (SQLException e) {
-            throw e;
-        } 
+    public void updateTeam(Team team) {
+      String query ="update team set team_name=?,location=?,owner_name=?,establishment_year=? where team_id=?";
+      try {
+        PreparedStatement ps= connection.prepareStatement(query);
+             ps.setString(1, team.getTeamName());
+            ps.setString(2, team.getLocation());
+            ps.setString(3, team.getOwnerName());
+            ps.setInt(4, team.getEstablishmentYear());
+            ps.setInt(5, team.getTeamId());
+            ps.executeUpdate();
+    } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
     }
+    }
+
+    @Override
+    public void deleteTeam(int teamId) {
+      String query= "delete from team where team_id=?";
+      try {
+        PreparedStatement ps= connection.prepareStatement(query);
+        ps.setInt(1, teamId);
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } 
+    }
+
+    @Override
+    public List<Team> getAllTeams() {
+        List<Team> teams= new ArrayList<>();
+        String query="select *from team";
+        try {
+            PreparedStatement ps= connection.prepareStatement(query);
+            ResultSet rs= ps.executeQuery();
+            while (rs.next()) {
+                Team t1= new Team(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                teams.add(t1);
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return teams;
+    }
+
+
+
 }

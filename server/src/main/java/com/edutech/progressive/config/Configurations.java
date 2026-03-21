@@ -1,4 +1,3 @@
-// src/main/java/com/edutech/progressive/config/Configurations.java
 package com.edutech.progressive.config;
 
 import org.springframework.context.annotation.Bean;
@@ -16,14 +15,14 @@ public class Configurations {
         return new BCryptPasswordEncoder();
     }
 
-    // Open CORS for tests; tighten later
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-            @Override public void addCorsMappings(CorsRegistry registry) {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedOrigins("*")
-                        .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
                         .allowedHeaders("*");
             }
         };

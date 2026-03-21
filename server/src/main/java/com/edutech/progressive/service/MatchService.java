@@ -1,11 +1,13 @@
 package com.edutech.progressive.service;
 
 import com.edutech.progressive.entity.Match;
+import com.edutech.progressive.exception.NoMatchesFoundException;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface MatchService {
+
     List<Match> getAllMatches() throws SQLException;
 
     Match getMatchById(int matchId) throws SQLException;
@@ -16,9 +18,8 @@ public interface MatchService {
 
     void deleteMatch(int matchId) throws SQLException;
 
-    // Default method as per spec (can be overridden in JPA impl)
-    default List<Match> getAllMatchesByStatus(String status) {
+    //Do not implement these methods in MatchServiceImplJdbc.java class
+    default List<Match> getAllMatchesByStatus(String status) throws NoMatchesFoundException {
         return null;
     }
-
 }

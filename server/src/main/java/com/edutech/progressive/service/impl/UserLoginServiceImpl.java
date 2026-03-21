@@ -1,46 +1,75 @@
 package com.edutech.progressive.service.impl;
 
 import com.edutech.progressive.entity.User;
+import com.edutech.progressive.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.edutech.progressive.repository.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserLoginServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserLoginServiceImpl(UserRepository userRepository,
-                                PasswordEncoder passwordEncoder) {
+    @Autowired
+    public UserLoginServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        com.edutech.progressive.entity.User u = userRepository.findByUsername(username);
-        if (u == null) throw new UsernameNotFoundException("User not found: " + username);
-
-        // Using authorities "ADMIN" / "USER" per your spec
-        return org.springframework.security.core.userdetails.User
-                .withUsername(u.getUsername())
-                .password(u.getPassword())
-                .authorities(u.getRole())
-                .build();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    // createUser should encode password
-    public com.edutech.progressive.entity.User createUser(com.edutech.progressive.entity.User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null)
-            throw new IllegalStateException("Username already exists");
-        if (userRepository.findByEmail(user.getEmail()) != null)
-            throw new IllegalStateException("Email already exists");
+    public Optional<User> getUserById(Integer userId) {
+        return userRepository.findById(userId);
+    }
+
+    public User createUser(User user) throws Exception {
+        User oldUser = userRepository.findByUsername(user.getUsername());
+        User emailExists = userRepository.findByEmail(user.getEmail());
+        if (oldUser != null) {
+            throw new Exception("User name Is Unavailable: " + user.getUsername());
+        }
+        if (emailExists != null) {
+            throw new Exception("User already exists with the given email: " + user.getEmail());
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                new ArrayList<>()
+        );
     }
 }

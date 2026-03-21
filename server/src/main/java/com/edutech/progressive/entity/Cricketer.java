@@ -1,13 +1,7 @@
 package com.edutech.progressive.entity;
 
-// If Spring Boot 2.x:
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
-// If Spring Boot 3.x, replace the above with: import jakarta.persistence.*;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
-import com.edutech.progressive.entity.Team;
 
 @Entity
 @Table(name = "cricketer")
@@ -18,18 +12,16 @@ public class Cricketer implements Comparable<Cricketer> {
     @Column(name = "cricketer_id")
     private int cricketerId;
 
-    // Nullable FK to avoid default 0 → Team#0 fetch
-    @Column(name = "team_id")
-    private Integer teamId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
 
-    @Column(name = "cricketer_name", nullable = false, length = 100)
+    @Column(name = "cricketer_name")
     private String cricketerName;
 
     private int age;
     private String nationality;
     private int experience;
-
-    @Column(length = 50) // Allowed: “Batsman”, “Bowler”, “All-rounder”, “Wicketkeeper”
     private String role;
 
     @Column(name = "total_runs")
@@ -38,36 +30,14 @@ public class Cricketer implements Comparable<Cricketer> {
     @Column(name = "total_wickets")
     private int totalWickets;
 
-    /**
-     * Association is READ-ONLY via team_id and:
-     *  - LAZY to avoid eager proxy loading
-     *  - @NotFound(IGNORE) to avoid exceptions if Team row not present (e.g., teamId=0/null)
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id", insertable = false, updatable = false)
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Team team;
-
     public Cricketer() {}
 
-    public Cricketer(int cricketerId, Integer teamId, String cricketerName, int age,
-                     String nationality, int experience, String role, int totalRuns, int totalWickets) {
-        this.cricketerId = cricketerId;
-        this.teamId = teamId;
-        this.cricketerName = cricketerName;
-        this.age = age;
-        this.nationality = nationality;
-        this.experience = experience;
-        this.role = role;
-        this.totalRuns = totalRuns;
-        this.totalWickets = totalWickets;
-    }
-
+    // ----- getters/setters for other fields -----
     public int getCricketerId() { return cricketerId; }
     public void setCricketerId(int cricketerId) { this.cricketerId = cricketerId; }
 
-    public Integer getTeamId() { return teamId; }
-    public void setTeamId(Integer teamId) { this.teamId = teamId; }
+    public Team getTeam() { return team; }
+    public void setTeam(Team team) { this.team = team; }
 
     public String getCricketerName() { return cricketerName; }
     public void setCricketerName(String cricketerName) { this.cricketerName = cricketerName; }
@@ -89,12 +59,21 @@ public class Cricketer implements Comparable<Cricketer> {
 
     public int getTotalWickets() { return totalWickets; }
     public void setTotalWickets(int totalWickets) { this.totalWickets = totalWickets; }
+    @JsonProperty("teamId")
+    public int getTeamId() {
+        return (team != null ? team.getTeamId() : 0);
+    }
 
-    public Team getTeam() { return team; }
-    public void setTeam(Team team) { this.team = team; }
+    @JsonProperty("teamId")
+    public void setTeamId(int teamId) {
+        if (this.team == null) {
+            this.team = new Team();
+        }
+        this.team.setTeamId(teamId); // reference by id only
+    }
 
     @Override
     public int compareTo(Cricketer o) {
-        return Integer.compare(this.experience, o.experience);
+        return Integer.compare(this.experience, o.getExperience());
     }
 }

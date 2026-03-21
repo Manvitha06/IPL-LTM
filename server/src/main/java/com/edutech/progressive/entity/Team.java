@@ -1,5 +1,6 @@
 package com.edutech.progressive.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -7,30 +8,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-
-public class Team implements Comparable<Team>{
+@Table
+public class Team implements Comparable<Team> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private int teamId;
+    @GeneratedValue
+    private int teamId;
     private String teamName;
     private String location;
     private String ownerName;
     private int establishmentYear;
-  
-@OneToMany(mappedBy = "team")
-    private List<Cricketer> cricketers;
-
-    // One team → many matches as first team
-    @OneToMany(mappedBy = "firstTeam")
-    private List<Match> matchesAsFirstTeam;
-   
-@OneToMany(mappedBy = "secondTeam")
-    private List<Match> matchesAsSecondTeam;
-
-
-
+    // @OneToMany(mappedBy = "team")
+    // private List<Cricketer> players;
     public Team() {
     }
     public Team(int teamId, String teamName, String location, String ownerName, int establishmentYear) {
@@ -40,6 +31,7 @@ public class Team implements Comparable<Team>{
         this.ownerName = ownerName;
         this.establishmentYear = establishmentYear;
     }
+    
     public int getTeamId() {
         return teamId;
     }
@@ -72,8 +64,15 @@ public class Team implements Comparable<Team>{
     }
     @Override
     public int compareTo(Team o) {
-     return this.getTeamName().compareTo(o.getTeamName());
+       return this.teamName.compareTo(o.getTeamName());
     }
-    
-
+    // public List<Cricketer> getPlayers() {
+    //     return players;
+    // }
+    // public void setPlayers(List<Cricketer> players) {
+    //     this.players = players;
+    // }
+    // public void addCricketer(Cricketer c){
+    //     players.add(c);
+    // }
 }

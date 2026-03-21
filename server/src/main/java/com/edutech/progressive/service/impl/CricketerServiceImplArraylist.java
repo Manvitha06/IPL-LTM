@@ -7,23 +7,31 @@ import java.util.List;
 import com.edutech.progressive.entity.Cricketer;
 import com.edutech.progressive.service.CricketerService;
 
-public class CricketerServiceImplArraylist implements CricketerService {
-List<Cricketer>cricket=new ArrayList<>();
+public class CricketerServiceImplArraylist implements CricketerService  {
+    List<Cricketer> cricketers= new ArrayList<>();
+
     @Override
     public List<Cricketer> getAllCricketers() {
-      return cricket;
+       return cricketers;
     }
 
     @Override
     public Integer addCricketer(Cricketer cricketer) {
-       cricket.add(cricketer);
-       return cricket.size();
+        if(cricketer!=null){
+            cricketers.add(cricketer);
+            return cricketers.size();
+        }
+        return -1;
     }
 
     @Override
     public List<Cricketer> getAllCricketersSortedByExperience() {
-     Collections.sort(cricket);
-     return cricket;
+        List<Cricketer> sorted= new ArrayList<>(cricketers);
+        Collections.sort(sorted);
+        return sorted;
     }
-
+    @Override
+    public void emptyArrayList() {
+        cricketers.clear();
+    }
 }

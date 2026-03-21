@@ -1,56 +1,48 @@
 package com.edutech.progressive.service.impl;
 
-import java.sql.SQLException;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.edutech.progressive.dao.TeamDAO;
 import com.edutech.progressive.entity.Team;
 import com.edutech.progressive.service.TeamService;
 
 public class TeamServiceImplJdbc implements TeamService  {
+    TeamDAO teamDAO;
 
-
-
-    private final TeamDAO teamDAO;
-
+    
     public TeamServiceImplJdbc(TeamDAO teamDAO) {
-        this.teamDAO = teamDAO;
+      this.teamDAO = teamDAO;
     }
 
     @Override
-    public List<Team> getAllTeams() throws SQLException {
-        return teamDAO.getAllTeams();
+    public List<Team> getAllTeams() {
+     return teamDAO.getAllTeams();
     }
 
     @Override
-    public int addTeam(Team team) throws SQLException {
-        return teamDAO.addTeam(team);
+    public int addTeam(Team team) {
+      return teamDAO.addTeam(team);
     }
 
     @Override
-    public List<Team> getAllTeamsSortedByName() throws SQLException {
-        return teamDAO.getAllTeams()
-                .stream()
-                .sorted(Comparator.comparing(Team::getTeamName, String.CASE_INSENSITIVE_ORDER))
-                .collect(Collectors.toList());
+    public List<Team> getAllTeamsSortedByName() {
+      List<Team> sorted= teamDAO.getAllTeams();
+      Collections.sort(sorted);
+      return sorted;
     }
-
     @Override
-    public Team getTeamById(int teamId) throws SQLException {
+    public Team getTeamById(int teamId) {
         return teamDAO.getTeamById(teamId);
     }
-
     @Override
-    public void updateTeam(Team team) throws SQLException {
-        teamDAO.updateTeam(team);
+    public void updateTeam(Team team) {
+      teamDAO.updateTeam(team);
     }
-
     @Override
-    public void deleteTeam(int teamId) throws SQLException {
-        teamDAO.deleteTeam(teamId);
+    public void deleteTeam(int teamId) {
+      teamDAO.deleteTeam(teamId);
     }
+    
 }
-
-   
