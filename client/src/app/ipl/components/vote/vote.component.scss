@@ -6,22 +6,18 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
   h2 {
     text-align: center;
     margin-bottom: 20px;
   }
-  
   form div {
     margin-bottom: 15px;
   }
-  
   label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
   }
-  
   input,
   select {
     width: 100%;
@@ -30,7 +26,6 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
   button {
     width: 100%;
     padding: 10px;
@@ -42,27 +37,22 @@
     cursor: pointer;
     font-size: 16px;
   }
-  
   button:hover {
     background-color: #0056b3;
   }
-  
   button[disabled] {
     background-color: #cccccc;
     cursor: not-allowed;
   }
-  
   .error {
     color: red;
     font-size: 12px;
   }
-  
   .success {
     color: green;
     font-size: 14px;
     margin-top: 20px;
   }
-  
   a.task-list {
     display: block;
     margin-top: 20px;
@@ -72,4 +62,3 @@
     font-size: 16px;
     transition: color 0.3s ease;
   }
-  

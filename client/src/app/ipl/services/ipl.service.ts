@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Team } from "../types/Team";
@@ -102,9 +101,14 @@ export class IplService {
     return this.http.post<Vote>(`${this.baseUrl}/vote`, vote);
   }
   
-  getVotesCountOfAllCategories(): Observable<Map<string, number>> {
-    return this.http.get<Map<string, number>>(`${this.baseUrl}/vote/count/`);
-  }
+  // getVotesCountOfAllCategories(): Observable<Map<string, number>> {
+  //   return this.http.get<Map<string, number>>(`${this.baseUrl}/vote/count`);
+  // }
+  
+getVotesCountOfAllCategories(): Observable<Record<string, number>> {
+  return this.http.get<Record<string, number>>(`${this.baseUrl}/vote/count`);
+}
+
 
   //Backend API calls of TicketBooking
 

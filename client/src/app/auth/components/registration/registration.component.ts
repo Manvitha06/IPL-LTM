@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -27,21 +28,40 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.registrationForm.valid) {
-      this.authService.createUser(this.registrationForm.value).subscribe(
-        response => {
-          this.successMessage = 'Registration successful!';
-          this.errorMessage = null;
-          this.registrationForm.reset();
-        },
-        error => {
-          this.errorMessage = error;
-          this.successMessage = null;
-        }
-      );
-    } else {
-      this.errorMessage = 'Please fill out the form correctly.';
-    }
+onSubmit(): void {
+  if (this.registrationForm.valid) {
+    this.successMessage = null;
+    this.errorMessage = null;
+
+    const payload = this.registrationForm.value;
+
+    this.authService.createUser(payload).subscribe({
+      next: (response) => {
+        this.successMessage =
+          (response && (response['message'] || response['msg'])) ||
+          'Registration successful!';
+        this.errorMessage = null;
+        this.registrationForm.reset();
+      },
+      error: (err: HttpErrorResponse | any) => {
+        const serverMessage =
+          err?.error?.message ||
+          err?.error?.error ||
+          (typeof err?.error === 'string' ? err.error : null);
+
+        this.errorMessage =
+          serverMessage ||
+          err?.message ||
+          'Something went wrong. Please try again.';
+        this.successMessage = null;
+
+        console.error('Create user error', err); // optional
+      },
+    });
+  } else {
+    this.registrationForm.markAllAsTouched();
+    this.errorMessage = 'Please fill out the form correctly.';
+    this.successMessage = null;
   }
+}
 }

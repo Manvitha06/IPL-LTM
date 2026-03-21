@@ -1,9 +1,9 @@
-<div class="card p-3 shadow-sm">
-  <h3 class="text-primary">Team Details</h3>
+<section class="team-card">
+  <h2 class="title">Team Details</h2>
 
-  <p><strong>Team ID:</strong> {{ team.teamId }}</p>
-  <p><strong>Team Name:</strong> {{ team.teamName }}</p>
-  <p><strong>Location:</strong> {{ team.location }}</p>
-  <p><strong>Owner Name:</strong> {{ team.ownerName }}</p>
-  <p><strong>Establishment Year:</strong> {{ team.establishmentYear }}</p>
-</div>
+  <div class="row"><span class="label">Team ID: </span><span class="value">{{ team.teamId }}</span></div>
+  <div class="row"><span class="label">Team Name: </span><span class="value">{{ team.teamName }}</span></div>
+  <div class="row"><span class="label">Location: </span><span class="value">{{ team.location }}</span></div>
+  <div class="row"><span class="label">Owner Name: </span><span class="value">{{ team.ownerName }}</span></div>
+  <div class="row"><span class="label">Establishment Year: </span><span class="value">{{ team.establishmentYear }}</span></div>
+</section>

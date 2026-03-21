@@ -118,8 +118,4 @@ export class MatchEditComponent implements OnInit {
     this.successMessage = null;
     console.error('An error occurred:', this.errorMessage);
   }
-
-    
-  
-
 }

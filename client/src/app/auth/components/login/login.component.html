@@ -15,7 +15,7 @@
       <label for="password">Password</label>
       <input id="password" formControlName="password" type="password" placeholder="Enter Password">
       <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
-        <small *angIf="loginForm.get('password')?.hasError('required')">Password is required.</small>
+        <small *ngIf="loginForm.get('password')?.hasError('required')">Password is required.</small>
         <small *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 8 characters long.</small>
         <small *ngIf="loginForm.get('password')?.hasError('pattern')">Password must contain at least one capital letter and one numeric digit.</small>
       </div>

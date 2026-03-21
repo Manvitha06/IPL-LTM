@@ -5,7 +5,7 @@ import { Cricketer } from '../../types/Cricketer';
 import { Team } from '../../types/Team';
 import { Vote } from '../../types/Vote';
 import { HttpErrorResponse } from '@angular/common/http';
-
+ 
 @Component({
   selector: 'app-vote',
   templateUrl: './vote.component.html',
@@ -18,12 +18,11 @@ export class VoteComponent implements OnInit {
   errorMessage: string | null = null;
   teams: Team[] = [];
   cricketers: Cricketer[] = [];
-  
   constructor(
     private formBuilder: FormBuilder,
     private iplService: IplService
   ) {}
-
+ 
   ngOnInit(): void {
     this.loadTeams();
     this.loadCricketers();
@@ -38,14 +37,14 @@ export class VoteComponent implements OnInit {
       this.updateValidators(category);
     });
   }
-
+ 
   updateValidators(category: string): void {
     const cricketerControl = this.voteForm.get('cricketer');
     const teamControl = this.voteForm.get('team');
-
+ 
     cricketerControl?.clearValidators();
     teamControl?.clearValidators();
-
+ 
     // If category is Cricketer, make cricketer required, and clear team
     if (category === 'Cricketer') {
       cricketerControl?.setValidators([Validators.required]);
@@ -56,24 +55,23 @@ export class VoteComponent implements OnInit {
       teamControl?.setValidators([Validators.required]);
       cricketerControl?.clearValidators();
     }
-
+ 
     // Update the value and validity for both controls
     cricketerControl?.updateValueAndValidity();
     teamControl?.updateValueAndValidity();
   }
-  
   loadTeams(): void {
     this.iplService.getAllTeams().subscribe((teams) => {
       this.teams = teams;
     });
   }
-
+ 
   loadCricketers(): void {
     this.iplService.getAllCricketers().subscribe((cricketers) => {
       this.cricketers = cricketers;
     });
   }
-
+ 
   onSubmit(): void {
     if (this.voteForm.valid) {
       this.castVote();
@@ -82,7 +80,7 @@ export class VoteComponent implements OnInit {
       this.successMessage = null;
     }
   }
-
+ 
   private castVote(): void {
     this.iplService.createVote(this.voteForm.value).subscribe(
       (response: Vote) => {
@@ -95,11 +93,11 @@ export class VoteComponent implements OnInit {
       }
     );
   }
-
+ 
   resetForm(): void {
     this.voteForm.reset();
   }
-
+ 
   private handleError(error: HttpErrorResponse): void {
     if (error.error instanceof ErrorEvent) {
       this.errorMessage = `Client-side error: ${error.error.message}`;
