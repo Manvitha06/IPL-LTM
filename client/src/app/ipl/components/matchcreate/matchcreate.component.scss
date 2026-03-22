@@ -2,73 +2,93 @@
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+    background-color: #fff5fa; /* Soft pinkish white */
+    border-radius: 12px; /* Cute rounded corners */
+    border: 2px solid #f8c6d8; /* Pastel pink border */
+    box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Aesthetic pink glow */
+}
   
-  h2 {
+h2 {
     text-align: center;
     margin-bottom: 20px;
-  }
+    color: #d63384; /* Aesthetic deep pink */
+}
   
-  form div {
+form div {
     margin-bottom: 15px;
-  }
+}
   
-  label {
+label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-  }
+    color: #d63384; /* Pink label */
+}
   
-  input,
-  select {
+input,
+select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1.5px solid #f3a6c8; /* Soft pastel pink border */
+    border-radius: 8px; /* Cute rounded fields */
     box-sizing: border-box;
-  }
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: #ff69b4; /* Hot pink glow */
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+}
   
-  button {
+button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    background-color: #007bff;
+    background-color: #ff85c1; /* Soft bubble pink */
     color: white;
-    border: none;
-    border-radius: 4px;
+    border: 2px solid #f8c6d8; /* Cute border */
+    border-radius: 25px; /* Bubble effect */
     cursor: pointer;
     font-size: 16px;
-  }
+    transition: background-color 0.3s ease, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
+}
   
-  button:hover {
-    background-color: #0056b3;
-  }
+button:hover {
+    background-color: #ff5ea8; /* Slightly darker cute pink */
+    transform: translateY(-2px);
+}
   
-  button[disabled] {
-    background-color: #cccccc;
+button[disabled] {
+    background-color: #e6b5cc;
     cursor: not-allowed;
-  }
-
-  .error {
-    color: red;
-    font-size: 12px;
-  }
+}
   
-  .success {
-    color: green;
+.error {
+    color: #ff4d6d; /* Soft red-pink */
+    font-size: 12px;
+}
+  
+.success {
+    color: green; /* Keep success green */
     font-size: 14px;
     margin-top: 20px;
-  }
+}
   
-  a.task-list {
+a.task-list {
     display: block;
     margin-top: 20px;
     text-align: center;
     text-decoration: none;
-    color: #007bff;
+    color: #d63384; /* Pink link */
     font-size: 16px;
     transition: color 0.3s ease;
-  }
+}
+
+a.task-list:hover {
+    color: #b02770;
+    text-decoration: underline;
+}

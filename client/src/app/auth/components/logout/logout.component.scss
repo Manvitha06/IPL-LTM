@@ -2,20 +2,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .logout-button {
-    background-color: #e74c3c; /* Red background for the button */
-    border: none;
+}
+
+/* Cute Pink Logout Button */
+.logout-button {
+    background-color: #ff85c1; /* Soft aesthetic pink */
+    border: 2px solid #f8c6d8; /* Cute soft pink border */
     color: white;
     padding: 8px 16px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 25px; /* Bubble-like button */
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .logout-button:hover {
-    background-color: #c0392b; /* Darker red on hover */
-  }
-  
+    transition: background-color 0.3s ease, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3); /* Soft pink shadow */
+}
+
+/* Hover effect */
+.logout-button:hover {
+    background-color: #ff5ea8; /* Slightly darker cute pink */
+    transform: translateY(-2px); /* Lift effect */
+}

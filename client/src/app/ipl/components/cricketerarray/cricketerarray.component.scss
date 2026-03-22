@@ -1,41 +1,54 @@
 .cricketer-list-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    h2 {
-      text-align: center;
-      color: #007bff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #fff5fa; /* Soft pinkish white */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Soft pink shadow */
+
+  h2 {
+    text-align: center;
+    color: #d63384; /* Cute aesthetic pink */
+  }
+
+  button {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    background-color: #ff85c1; /* Aesthetic pastel pink */
+    color: white;
+    border: 2px solid #f8c6d8; /* Soft pink border */
+    border-radius: 25px; /* Bubble style */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+
+    &:hover {
+      background-color: #ff5ea8; /* Slightly darker cute pink */
+      transform: translateY(-2px);
     }
-    button {
-      display: block;
-      margin: 1rem auto;
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-&:hover {
-        background-color: #0056b3;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background-color: #ffffff; /* White card */
+      border: 1.5px solid #f3a6c8; /* Soft pink border */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(255, 182, 193, 0.2); /* Pink glow */
+
+      h3 {
+        margin: 0 0 0.5rem 0;
+        color: #d63384; /* Pink heading */
       }
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-      li {
-        margin-bottom: 1rem;
-        padding: 1rem;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        h3 {
-          margin: 0 0 0.5rem 0;
-        }
-        p {
-          margin: 0.2rem 0;
-        }
+
+      p {
+        margin: 0.2rem 0;
+        color: #6f2d4f; /* Soft plum for text */
       }
     }
   }
+}

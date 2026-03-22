@@ -1,44 +1,47 @@
 /* CSS for user Component */
 .user-form {
   max-width: 400px;
-  margin: 50px auto; /* Center the form with spacing from the top */
+  margin: 50px auto;
   padding: 30px;
-  border: 1px solid #ddd; /* Softer border color */
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+  border: 2px solid #f8c6d8; /* Soft cute pink border */
+  border-radius: 12px; /* Cute rounded corners */
+  background-color: #fff5fa; /* Light pinkish white */
+  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Soft pink shadow */
 }
 
 .user-form label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #333; /* Darker label color for better readability */
+  color: #d63384; /* Aesthetic deep pink */
 }
 
 .user-form input[type="text"],
 .user-form input[type="password"],
-.user-form input[type="email"]{
+.user-form input[type="email"] {
   width: 100%;
-  padding: 12px; /* Increase padding for better spacing */
-  margin-top: 5px; /* Add space between label and input */
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1.5px solid #f3a6c8; /* Light pastel pink border */
+  border-radius: 8px;
   font-size: 16px;
+  background-color: #fff;
   box-sizing: border-box;
-  transition: border-color 0.3s ease; /* Smooth transition for border */
+  transition: all 0.3s ease;
 }
 
 .user-form input[type="text"]:focus,
-.user-form input[type="password"]:focus {
-  border-color: #007bff; /* Highlight input field on focus */
+.user-form input[type="password"]:focus,
+.user-form input[type="email"]:focus {
+  border-color: #ff69b4; /* Hot pink highlight */
   outline: none;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4); /* Cute glowing pink */
 }
 
 .user-form .error {
-  color: red;
+  color: #ff4d6d; /* Soft red-pink */
   margin-top: 5px;
-  font-size: 14px; /* Slightly smaller font for error message */
+  font-size: 14px;
 }
 
 .user-form button[type="submit"] {
@@ -47,23 +50,25 @@
   padding: 12px;
   margin-top: 20px;
   border: none;
-  border-radius: 5px;
-  background-color: #4caf50; /* Green background for success */
+  border-radius: 25px; /* Bubble style */
+  background-color: #ff85c1; /* Aesthetic pastel pink */
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3); /* Pink soft shadow */
 }
 
 .user-form button[type="submit"]:hover {
-  background-color: #45a049; /* Darken on hover */
+  background-color: #ff5ea8; /* Slightly darker cute pink */
+  transform: translateY(-2px); /* Lift effect */
 }
 
 .user-form .error-message {
-  color: red;
+  color: #ff4d6d;
   margin-top: 10px;
   font-size: 14px;
-  text-align: center; /* Center the error message */
+  text-align: center;
 }
 
 a.task-list {
@@ -71,13 +76,13 @@ a.task-list {
   margin-top: 20px;
   text-align: center;
   text-decoration: none;
-  color: #007bff;
+  color: #d63384; /* Pink aesthetic link */
   font-size: 14px;
   transition: color 0.3s ease;
 }
 
 a.task-list:hover {
-  color: #0056b3;
+  color: #b02770;
   text-decoration: underline;
 }
 

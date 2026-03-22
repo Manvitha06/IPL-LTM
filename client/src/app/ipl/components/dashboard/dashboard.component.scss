@@ -1,52 +1,54 @@
 .dashboard-container {
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #fff5fa; /* Soft blush pink */
 }
 
 h2 {
   margin-top: 20px;
   margin-bottom: 10px;
   font-size: 24px;
-  color: #333;
+  color: #d63384; /* Deep aesthetic pink */
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  table-layout: fixed; 
+  table-layout: fixed;
 
   th, td {
-    border: 1px solid #ddd;
+    border: 1.5px solid #f3a6c8; /* Pastel pink borders */
     padding: 12px;
     text-align: left;
   }
 
   th {
-    background-color: #007bff;
+    background-color: #ff85c1; /* Cute bubble pink */
     color: white;
     font-weight: 600;
   }
 
   td {
-    background-color: #f9f9f9;
+    background-color: #fff; /* Clean white for readability */
+    color: #6f2d4f; /* Soft plum text */
   }
 }
 
 td.action-items {
   display: flex;
-  justify-content: space-evenly; 
-  gap: 10px;  
+  justify-content: space-evenly;
+  gap: 10px;
 }
 
 .email-form-container {
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #fff5fa; /* Soft pinkish white */
   border-radius: 15px;
-  box-shadow: 0px 1px 8px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #f8c6d8;
+  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Cute pink glow */
 }
 
 form div {
@@ -57,60 +59,74 @@ label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #d63384; /* Aesthetic pink label */
 }
 
 input,
 select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1.5px solid #f3a6c8;
+  border-radius: 8px;
   box-sizing: border-box;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff69b4;
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
 }
 
 .edit, .delete, .search {
-  flex-grow: 1;  /* Buttons take equal available space */
+  flex-grow: 1;
   padding: 8px 16px;
   text-align: center;
   font-size: 16px;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px; /* Bubble style */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
 }
 
 .edit, .search {
-  background-color: #007bff;
+  background-color: #ff85c1; /* Pink buttons */
 }
 
 .delete {
-  background-color: #e74c3c;
+  background-color: #ff4d6d; /* Soft pinkish red */
 }
 
 .edit:hover, .search:hover {
-  background-color: #0056b3;
+  background-color: #ff5ea8;
+  transform: translateY(-2px);
 }
 
 .delete:hover {
-  background-color: #c64233;
+  background-color: #e63950;
+  transform: translateY(-2px);
 }
 
 button[disabled] {
-  background-color: #cccccc;
+  background-color: #e6b5cc;
   cursor: not-allowed;
 }
 
 .empty-list {
   padding: 10px;
   text-align: center;
+  color: #6f2d4f;
 }
 
 .card {
   background-color: #ffffff;
-  border: 1px solid #ddd;
+  border: 1.5px solid #f3a6c8;
   padding: 20px;
   margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.2); /* Soft aesthetic glow */
 }
