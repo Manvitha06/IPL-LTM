@@ -1,73 +1,63 @@
-/* Navbar container */
+/* ----------------------------------------------------
+   Aesthetic Pink–White IPL Navbar
+------------------------------------------------------- */
+
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #2c3e50; /* Dark background */
-    color: #ecf0f1; /* Light text */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
-  
-  /* Navbar list */
-  .navbar-list {
-    list-style: none;
-    display: flex;
-    gap: 20px; /* Space between links */
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Navbar links */
-  .nav-link {
-    text-decoration: none;
-    color: #ecf0f1; /* Light text color */
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 16px;
-    cursor: pointer; /* Pointer cursor on links */
-  }
-  
-  .nav-link:hover {
-    background-color: #2980b9; /* Blue hover effect */
-    color: white; /* White text on hover */
-  }
-  
-  /* No hover effect on application name */
-  .app-name {
-    cursor: default; /* No pointer cursor for the app name */
-  }
-  
-  .app-name:hover {
-    background-color: inherit; /* No hover background color */
-    color: inherit; /* No hover color change */
-  }
-  
-  .nav-link.active {
-    background-color: #3498db; /* Active link color */
-    color: white;
-  }
-  
-  /* Logout button styles (inside <app-logout>) */
-  app-logout {
-    margin-left: auto;
-  }
-  
-  /* Media Query: Responsive for small screens */
-  @media (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .navbar-list {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    app-logout {
-      margin-left: 0;
-    }
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 25px;
+  background: linear-gradient(90deg, #ffb7d5, #ffd6e8); /* soft gradient pink */
+  color: #6f2d4f; /* soft plum text */
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.25);
+  font-family: 'Poppins', sans-serif;
+  border-bottom: 2px solid #f8c6d8;
+}
+
+/* Navbar list */
+.navbar-list {
+  list-style: none;
+  display: flex;
+  gap: 22px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar links */
+.nav-link {
+  text-decoration: none;
+  color: #6f2d4f;              /* plum-pink aesthetic text */
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 17px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, transform .2s;
+}
+
+/* Hover effect - soft bright pink */
+.nav-link:hover {
+  background-color: #ff85c1;     /* bubble pink */
+  color: #fff;                   /* white text */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
+}
+
+/* App name - no hover */
+.app-name {
+  cursor: default;
+  font-size: 20px;
+  font-weight: 700;
+  color: #b02770; /* deep aesthetic berry pink */
+  text-shadow: 1px 1px 6px rgba(255, 182, 193, 0.5);
+}
+
+.app-name:hover {
+  background-color: inherit;
+  color: inherit;
+}
+
+/* Active link */
+.nav-link.active {
+  background-color: #ff5ea8; /* deeper bright pink */
+  color: white;
+}

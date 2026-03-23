@@ -1,94 +1,169 @@
-.vote-form-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff5fa; /* Soft pinkish white */
-    border-radius: 12px;
-    border: 2px solid #f8c6d8; /* Pastel pink border */
-    box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Cute aesthetic glow */
-}
-  
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #d63384; /* Deep soft pink */
-}
-  
-form div {
-    margin-bottom: 15px;
-}
-  
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #d63384; /* Pink label text */
-}
-  
-input,
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1.5px solid #f3a6c8; /* Pastel pink border */
-    border-radius: 8px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    transition: all 0.3s ease;
+/* ===============================================
+   ONLY VOTE PAGE — Aesthetic Pink & White Theme
+   Scope with .vote-page so it doesn't leak globally
+================================================== */
+
+/* Palette (local CSS variables) */
+.vote-page {
+  --pink-50:  #fff5fa;
+  --pink-100: #ffe6f2;
+  --pink-200: #ffd6e8;
+  --pink-300: #ffb7d5;
+  --pink-400: #ff85c1;
+  --pink-500: #ff69b4;
+  --pink-600: #ff5ea8;
+  --pink-700: #d63384; /* labels/links */
+  --berry-700:#b02770; /* headings */
+  --plum-700: #6f2d4f; /* body text */
+  --danger:   #ff4d6d;
+  --success-bg:#d4ffd9;
+  --success:  #2d7a36;
+  --border:   #f3a6c8;
+  --card-shadow: 0 6px 12px rgba(255, 182, 193, 0.35);
 }
 
-input:focus,
-select:focus {
-    border-color: #ff69b4; /* Hot pink glow */
-    outline: none;
-    box-shadow: 0 0 8px rgba(255, 105, 180, 0.4); /* Cute glow effect */
-}
-  
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #ff85c1; /* Soft bubble pink */
-    color: white;
-    border: 2px solid #f8c6d8; /* Soft pink border */
-    border-radius: 25px; /* Bubble style */
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s;
-    box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
-}
-  
-button:hover {
-    background-color: #ff5ea8; /* Slightly darker aesthetic pink */
-    transform: translateY(-2px);
-}
-  
-button[disabled] {
-    background-color: #e6b5cc;
-    cursor: not-allowed;
-}
-  
-.error {
-    color: #ff4d6d; /* Soft red‑pink */
-    font-size: 12px;
-}
-  
-.success {
-    color: green; /* Keeping success green */
-    font-size: 14px;
-    margin-top: 20px;
-}
-  
-a.task-list {
-    display: block;
-    margin-top: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #d63384; /* Pink link */
-    font-size: 16px;
-    transition: color 0.3s ease;
+/* Full-page background and font for the vote area only */
+.vote-page {
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px 16px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--pink-100) 0%, #ffffff 40%, var(--pink-200) 100%);
+  background-attachment: fixed;
+  font-family: 'Poppins', sans-serif;
+  color: var(--plum-700); /* default text color */
 }
 
-a.task-list:hover {
-    color: #b02770;
-    text-decoration: underline;
+/* The vote card */
+.vote-page .vote-form-container {
+  width: 100%;
+  max-width: 560px;
+  background: var(--pink-50);          /* pinkish white card */
+  border-radius: 16px;
+  border: 2px solid #f8c6d8;           /* soft pink border */
+  box-shadow: var(--card-shadow);      /* cute pink glow */
+  padding: 24px;
+}
+
+/* Title — big, pink, aesthetic */
+.vote-page .vote-form-container h2 {
+  text-align: center;
+  font-size: 28px;                     /* ↑ larger heading */
+  font-weight: 700;
+  color: var(--berry-700);             /* aesthetic pink heading */
+  margin-bottom: 18px;
+  text-shadow: 2px 2px 5px rgba(255, 182, 193, 0.5);
+}
+
+/* Labels — pink, bold */
+.vote-page .vote-form-container label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--pink-700);              /* label pink */
+}
+
+/* Inputs & Selects — white fields, pink borders & glow */
+.vote-page .vote-form-container input,
+.vote-page .vote-form-container select {
+  width: 100%;
+  padding: 12px;
+  border: 1.6px solid var(--border);   /* pastel pink border */
+  border-radius: 10px;
+  background: #ffffff;                 /* white field */
+  color: var(--plum-700);              /* readable plum text */
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Focus — pink ring glow */
+.vote-page .vote-form-container input:focus,
+.vote-page .vote-form-container select:focus {
+  border-color: var(--pink-500);
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+  outline: none;
+}
+
+/* Field spacing */
+.vote-page .vote-form-container form > div {
+  margin-bottom: 14px;
+}
+
+/* Inline validation message — aesthetic pink/red */
+.vote-page .vote-form-container .error small {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+/* Submit button — pink pill, white text */
+.vote-page .vote-form-container button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 999px;                 /* full pill */
+  background: var(--pink-400);          /* soft bubble pink */
+  color: #ffffff;                       /* white text */
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .3s, transform .2s, box-shadow .3s;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
+  margin-top: 8px;
+}
+
+.vote-page .vote-form-container button[type="submit"]:hover {
+  background: var(--pink-600);          /* deeper pink on hover */
+  transform: translateY(-2px);
+}
+
+.vote-page .vote-form-container button[disabled] {
+  background: #e8b3cc !important;       /* muted pink */
+  cursor: not-allowed;
+}
+
+/* Dashboard link — pink text */
+.vote-page .vote-form-container .task-list {
+  display: block;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pink-700);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.vote-page .vote-form-container .task-list:hover {
+  color: var(--berry-700);
+  text-decoration: underline;
+}
+
+/* Success & Error banners — pink/white aesthetic */
+.vote-page .success,
+.vote-page .error {
+  margin-top: 12px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.vote-page .success {
+  background: var(--success-bg);        /* minty success bg pairs with pink theme */
+  color: var(--success);
+}
+
+.vote-page .error {
+  background: #ffe0e6;                  /* soft pink error bg */
+  color: var(--danger);
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .vote-page .vote-form-container { padding: 18px; }
+  .vote-page .vote-form-container h2 { font-size: 24px; }
 }

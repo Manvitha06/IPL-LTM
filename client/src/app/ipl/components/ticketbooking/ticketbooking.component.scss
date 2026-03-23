@@ -1,94 +1,158 @@
-.ticket-booking-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff5fa; /* Soft pinkish white */
-    border-radius: 12px;
-    border: 2px solid #f8c6d8; /* Pastel pink border */
-    box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Cute pink glow */
-}
-  
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #d63384; /* Deep rose pink */
-}
-  
-form div {
-    margin-bottom: 15px;
-}
-  
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #d63384; /* Pink labels */
-}
-  
-input,
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1.5px solid #f3a6c8; /* Soft pastel pink border */
-    border-radius: 8px;
-    box-sizing: border-box;
-    background-color: white;
-    transition: all 0.3s ease;
+/* ===============================================
+   ONLY TICKET BOOKING PAGE — Aesthetic Pink & White
+   Scope with .ticket-page to avoid leaking globally
+================================================== */
+
+/* Local palette (easy to tweak) */
+.ticket-page {
+  --pink-50:  #fff5fa;
+  --pink-100: #ffe6f2;
+  --pink-200: #ffd6e8;
+  --pink-300: #ffb7d5;
+  --pink-400: #ff85c1;
+  --pink-500: #ff69b4;
+  --pink-600: #ff5ea8;
+  --pink-700: #d63384; /* labels/links */
+  --berry-700:#b02770; /* headings */
+  --plum-700: #6f2d4f; /* body text */
+  --danger:   #ff4d6d;
+  --success-bg:#d4ffd9;
+  --success:  #2d7a36;
+  --border:   #f3a6c8;
+  --card-shadow: 0 6px 12px rgba(255, 182, 193, 0.35);
 }
 
-input:focus,
-select:focus {
-    border-color: #ff69b4; /* Hot pink highlight */
-    outline: none;
-    box-shadow: 0 0 8px rgba(255, 105, 180, 0.4); /* Pink glow */
-}
-  
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #ff85c1; /* Pastel bubble pink */
-    color: white;
-    border: 2px solid #f8c6d8;
-    border-radius: 25px; /* Cute bubble button */
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s;
-    box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
-}
-  
-button:hover {
-    background-color: #ff5ea8; /* Slightly deeper cute pink */
-    transform: translateY(-2px);
-}
-  
-button[disabled] {
-    background-color: #e6b5cc;
-    cursor: not-allowed;
-}
-  
-.error {
-    color: #ff4d6d; /* Soft red‑pink */
-    font-size: 12px;
-}
-  
-.success {
-    color: green; /* Keep success green */
-    font-size: 14px;
-    margin-top: 20px;
-}
-  
-a.task-list {
-    display: block;
-    margin-top: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #d63384; /* Pink link */
-    font-size: 16px;
-    transition: color 0.3s ease;
+/* Full-page background + typography for this page only */
+.ticket-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, var(--pink-100) 0%, #ffffff 40%, var(--pink-200) 100%);
+  background-attachment: fixed;
+  font-family: 'Poppins', sans-serif;
+  color: var(--plum-700);
 }
 
-a.task-list:hover {
-    color: #b02770;
-    text-decoration: underline;
+/* Booking card */
+.ticket-page .ticket-booking-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+  background-color: var(--pink-50);  /* soft pinkish white */
+  border-radius: 16px;
+  border: 2px solid #f8c6d8;         /* pastel pink border */
+  box-shadow: var(--card-shadow);     /* cute pink glow */
+}
+
+/* Title (bigger, pretty pink) */
+.ticket-page .ticket-title,
+.ticket-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--berry-700);            /* deep aesthetic pink */
+  font-size: 28px;
+  font-weight: 700;
+  text-shadow: 2px 2px 6px rgba(255, 182, 193, 0.45);
+}
+
+/* Field spacing */
+.ticket-page form div {
+  margin-bottom: 16px;
+}
+
+/* Labels (bold pink) */
+.ticket-page label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--pink-700);
+}
+
+/* Inputs & selects (white with pink borders + glow) */
+.ticket-page input,
+.ticket-page select {
+  width: 100%;
+  padding: 12px;
+  border: 1.6px solid var(--border);
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--plum-700);
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.ticket-page input:focus,
+.ticket-page select:focus {
+  border-color: var(--pink-500);      /* hot pink ring */
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+}
+
+/* Submit button (pink pill) */
+.ticket-page button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: var(--pink-400);
+  color: #ffffff;
+  border: 2px solid #f8c6d8;
+  border-radius: 999px;               /* bubble pill */
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.35);
+}
+
+.ticket-page button:hover {
+  background-color: var(--pink-600);
+  transform: translateY(-2px);
+}
+
+.ticket-page button[disabled] {
+  background-color: #e6b5cc;
+  cursor: not-allowed;
+}
+
+/* Inline error + banners */
+.ticket-page .error {
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.ticket-page .success {
+  color: var(--success);
+  font-size: 14px;
+  margin-top: 20px;
+  background: var(--success-bg);
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Dashboard link */
+.ticket-page a.task-list {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--pink-700);
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.ticket-page a.task-list:hover {
+  color: var(--berry-700);
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .ticket-page .ticket-booking-container { padding: 18px; }
+  .ticket-page .ticket-title { font-size: 24px; }
 }

@@ -1,99 +1,179 @@
-/* CSS for user Component */
-.user-form {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 30px;
-  border: 2px solid #f8c6d8; /* Soft cute pink border */
-  border-radius: 12px; /* Cute rounded corners */
-  background-color: #fff5fa; /* Light pinkish white */
-  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Soft pink shadow */
+/* ==========================================================
+   ONLY REGISTER PAGE — Aesthetic Pink & White Theme
+   Scope with .register-page to avoid global leakage
+============================================================= */
+
+/* Local palette for this page */
+.register-page {
+  --pink-50:  #fff5fa;
+  --pink-100: #ffe6f2;
+  --pink-200: #ffd6e8;
+  --pink-300: #ffb7d5;
+  --pink-400: #ff85c1;
+  --pink-500: #ff69b4;
+  --pink-600: #ff5ea8;
+  --pink-700: #d63384; /* labels, links */
+  --berry-700:#b02770; /* headings */
+  --plum-700: #6f2d4f; /* body text */
+  --danger:   #ff4d6d;
+  --success-bg:#d4ffd9;
+  --success:  #2d7a36;
+  --border:   #f3a6c8;
+  --card-shadow: 0 6px 12px rgba(255, 182, 193, 0.35);
 }
 
+/* Full background & base font (only for this page) */
+.register-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, var(--pink-100) 0%, #ffffff 40%, var(--pink-200) 100%);
+  background-attachment: fixed;
+  font-family: 'Poppins', sans-serif;
+  color: var(--plum-700);
+}
+
+/* Card wrapper */
+.register-page .card {
+  background: var(--pink-50);
+  border: 2px solid #f8c6d8;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+}
+
+/* Title */
+.register-page .register-title,
+.register-page .card-header h1 {
+  color: var(--berry-700);
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin: 12px 0;
+  text-shadow: 2px 2px 6px rgba(255, 182, 193, 0.45);
+}
+
+/* Your original form, elevated into the aesthetic */
+.user-form {
+  max-width: 480px;       /* a bit wider than before for comfort */
+  margin: 30px auto;
+  padding: 26px;
+  border: 2px solid #f8c6d8; 
+  border-radius: 12px; 
+  background-color: var(--pink-50);
+  box-shadow: var(--card-shadow);
+}
+
+/* Labels */
 .user-form label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #d63384; /* Aesthetic deep pink */
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--pink-700);
+  font-size: 16px;
 }
 
+/* Inputs */
 .user-form input[type="text"],
 .user-form input[type="password"],
-.user-form input[type="email"] {
+.user-form input[type="email"],
+.user-form .form-control,
+.user-form select.form-control {
   width: 100%;
   padding: 12px;
   margin-top: 5px;
-  border: 1.5px solid #f3a6c8; /* Light pastel pink border */
-  border-radius: 8px;
+  border: 1.6px solid var(--border);
+  border-radius: 10px;
   font-size: 16px;
   background-color: #fff;
+  color: var(--plum-700);
   box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
 .user-form input[type="text"]:focus,
 .user-form input[type="password"]:focus,
-.user-form input[type="email"]:focus {
-  border-color: #ff69b4; /* Hot pink highlight */
+.user-form input[type="email"]:focus,
+.user-form .form-control:focus,
+.user-form select.form-control:focus {
+  border-color: var(--pink-500);
   outline: none;
-  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4); /* Cute glowing pink */
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
 }
 
+/* Error messages */
 .user-form .error {
-  color: #ff4d6d; /* Soft red-pink */
-  margin-top: 5px;
-  font-size: 14px;
+  color: var(--danger);
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
+/* Submit button */
+.user-form .btn-submit,
 .user-form button[type="submit"] {
   display: block;
   width: 100%;
   padding: 12px;
-  margin-top: 20px;
+  margin-top: 18px;
   border: none;
-  border-radius: 25px; /* Bubble style */
-  background-color: #ff85c1; /* Aesthetic pastel pink */
+  border-radius: 999px;
+  background-color: var(--pink-400);
   color: #fff;
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s;
-  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3); /* Pink soft shadow */
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.35);
 }
 
+.user-form .btn-submit:hover,
 .user-form button[type="submit"]:hover {
-  background-color: #ff5ea8; /* Slightly darker cute pink */
-  transform: translateY(-2px); /* Lift effect */
+  background-color: var(--pink-600);
+  transform: translateY(-2px);
 }
 
-.user-form .error-message {
-  color: #ff4d6d;
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-}
-
+/* Link to Login */
 a.task-list {
   display: block;
-  margin-top: 20px;
+  margin-top: 16px;
   text-align: center;
   text-decoration: none;
-  color: #d63384; /* Pink aesthetic link */
-  font-size: 14px;
+  color: var(--pink-700);
+  font-size: 16px;
+  font-weight: 700;
   transition: color 0.3s ease;
 }
-
 a.task-list:hover {
-  color: #b02770;
+  color: var(--berry-700);
   text-decoration: underline;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-  .user-form {
-    padding: 20px;
-    margin: 20px auto;
-  }
+/* Success/Failure banners */
+.success p, .error p {
+  margin: 0;
+}
+.success {
+  color: var(--success);
+  background: var(--success-bg);
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  margin-top: 16px;
+}
+.error:not(.user-form .error) {
+  background: #ffe0e6;
+  color: var(--danger);
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  margin-top: 16px;
+}
 
-  .user-form button[type="submit"] {
-    padding: 10px;
-  }
+/* Responsive */
+@media (max-width: 600px) {
+  .user-form { padding: 20px; margin: 20px auto; }
+  .register-page .register-title { font-size: 24px; }
 }

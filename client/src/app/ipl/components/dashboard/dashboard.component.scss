@@ -1,109 +1,125 @@
+/* ---------------------------------------------------
+   GLOBAL LOOK FOR DASHBOARD AREA
+----------------------------------------------------- */
 .dashboard-container {
   margin: 0 auto;
-  padding: 20px;
-  background-color: #fff5fa; /* Soft blush pink */
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #ffe6f2 0%, #ffffff 40%, #ffd6e8 100%);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
-h2 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 24px;
-  color: #d63384; /* Deep aesthetic pink */
+/* ---------------------------------------------------
+   HEADINGS (Aesthetic Pink)
+----------------------------------------------------- */
+
+.dashboard-title,
+h2,
+h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #b02770;     /* Deep soft aesthetic plum-pink */
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
 }
 
+.dashboard-title {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 25px;
+  text-shadow: 2px 2px 6px rgba(255, 182, 193, 0.4);
+}
+
+h3 {
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+/* ---------------------------------------------------
+   CARD DESIGN (Pretty Pink Containers)
+----------------------------------------------------- */
+.card {
+  background-color: #ffffff;
+  border: 1.8px solid #f3a6c8;
+  padding: 22px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 14px rgba(255, 182, 193, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* ---------------------------------------------------
+   TABLE DESIGN (Aesthetic Bubble Pink)
+----------------------------------------------------- */
 .table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  table-layout: fixed;
-
-  th, td {
-    border: 1.5px solid #f3a6c8; /* Pastel pink borders */
-    padding: 12px;
-    text-align: left;
-  }
-
-  th {
-    background-color: #ff85c1; /* Cute bubble pink */
-    color: white;
-    font-weight: 600;
-  }
-
-  td {
-    background-color: #fff; /* Clean white for readability */
-    color: #6f2d4f; /* Soft plum text */
-  }
+  font-size: 15px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+.table th,
+.table td {
+  border: 1.5px solid #f3a6c8;
+  padding: 12px;
+  text-align: left;
+  color: #6f2d4f; /* Soft plum text */
+}
+
+.table th {
+  background-color: #ff85c1;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0.4px;
+}
+
+.table td {
+  background-color: #fff;
+}
+
+/* Action buttons area */
 td.action-items {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   gap: 10px;
 }
 
-.email-form-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fff5fa; /* Soft pinkish white */
-  border-radius: 15px;
-  border: 2px solid #f8c6d8;
-  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Cute pink glow */
-}
-
-form div {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #d63384; /* Aesthetic pink label */
-}
-
-input,
-select {
-  width: 100%;
-  padding: 10px;
-  border: 1.5px solid #f3a6c8;
-  border-radius: 8px;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  transition: all 0.3s ease;
-}
-
-input:focus,
-select:focus {
-  border-color: #ff69b4;
-  outline: none;
-  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
-}
-
-.edit, .delete, .search {
-  flex-grow: 1;
+/* ---------------------------------------------------
+   BUTTONS (Cute Pink Buttons)
+----------------------------------------------------- */
+.edit,
+.delete,
+.search {
+  min-width: 90px;
   padding: 8px 16px;
-  text-align: center;
-  font-size: 16px;
-  color: white;
+  font-size: 15px;
   border: none;
-  border-radius: 25px; /* Bubble style */
+  color: white;
+  border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
 }
 
-.edit, .search {
-  background-color: #ff85c1; /* Pink buttons */
+.edit,
+.search {
+  background-color: #ff85c1;
+}
+
+.edit:hover,
+.search:hover {
+  background-color: #ff5ea8;
+  transform: translateY(-2px);
 }
 
 .delete {
-  background-color: #ff4d6d; /* Soft pinkish red */
-}
-
-.edit:hover, .search:hover {
-  background-color: #ff5ea8;
-  transform: translateY(-2px);
+  background-color: #ff4d6d;
 }
 
 .delete:hover {
@@ -116,17 +132,46 @@ button[disabled] {
   cursor: not-allowed;
 }
 
+/* ---------------------------------------------------
+   EMPTY LIST MESSAGE
+----------------------------------------------------- */
 .empty-list {
   padding: 10px;
   text-align: center;
   color: #6f2d4f;
+  font-size: 15px;
 }
 
-.card {
-  background-color: #ffffff;
-  border: 1.5px solid #f3a6c8;
+/* ---------------------------------------------------
+   EMAIL Form Styling
+----------------------------------------------------- */
+.email-form-container {
+  max-width: 600px;
+  margin: 25px auto;
   padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.2); /* Soft aesthetic glow */
+  background-color: #fff5fa;
+  border-radius: 15px;
+  border: 2px solid #f8c6d8;
+  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3);
+}
+
+.email-form-container label {
+  font-weight: 600;
+  color: #d63384;
+}
+
+.email-form-container input,
+.email-form-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1.5px solid #f3a6c8;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.email-form-container input:focus {
+  border-color: #ff69b4;
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
 }

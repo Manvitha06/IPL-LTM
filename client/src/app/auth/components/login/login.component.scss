@@ -1,12 +1,71 @@
-/* CSS for Login Component */
+/* login.component.css */
+
+/* Full height page container with background */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe6f2 0%, #ffffff 50%, #ffd6e8 100%);
+  background-attachment: fixed;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header (local to this component) */
+.site-header.local {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  background: rgba(255, 245, 250, 0.85);
+  border-bottom: 1px solid #f8c6d8;
+  box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+  backdrop-filter: blur(6px);
+}
+.site-header.local .header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.site-header.local .brand-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ff5ea8;
+  box-shadow: 0 0 12px rgba(255, 94, 168, 0.6);
+}
+.site-header.local .brand-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d63384;
+}
+
+/* Content area centers the card */
+.page-content {
+  min-height: calc(100vh - 56px);
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+/* Your existing login card styles */
 .login-form {
   max-width: 400px;
-  margin: 50px auto;
+  width: 100%;
   padding: 30px;
-  border: 2px solid #f8c6d8; /* Soft cute pink border */
-  border-radius: 12px; /* Rounded cute corners */
-  background-color: #fff5fa; /* Light pinkish white aesthetic background */
-  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3); /* Soft pink shadow */
+  border: 2px solid #f8c6d8;
+  border-radius: 12px;
+  background-color: #fff5fa;
+  box-shadow: 0 6px 12px rgba(255, 182, 193, 0.3);
+}
+
+/* Title */
+.login-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #b02770;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Labels */
@@ -14,89 +73,77 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #d63384; /* Deep cute pink */
+  color: #d63384;
 }
 
-/* Input fields */
+/* Inputs */
 .login-form input[type="text"],
 .login-form input[type="password"] {
   width: 100%;
   padding: 12px;
   margin-top: 5px;
-  border: 1.5px solid #f3a6c8; /* Light pink borders */
-  border-radius: 8px; /* Cute rounded edges */
+  border: 1.5px solid #f3a6c8;
+  border-radius: 8px;
   font-size: 16px;
-  background-color: #fff; /* White input boxes */
+  background-color: #fff;
   box-sizing: border-box;
   transition: all 0.3s ease;
 }
-
 .login-form input[type="text"]:focus,
 .login-form input[type="password"]:focus {
-  border-color: #ff69b4; /* Hot pink focus border */
+  border-color: #ff69b4;
   outline: none;
-  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4); /* Glow effect */
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
 }
 
-/* Error messages */
+/* Errors */
 .login-form .error {
-  color: #ff4d6d; /* Cute red-pink error tone */
+  color: #ff4d6d;
   margin-top: 5px;
   font-size: 14px;
 }
 
-/* Submit button */
+/* Button */
 .login-form button[type="submit"] {
   display: block;
   width: 100%;
   padding: 12px;
   margin-top: 20px;
   border: none;
-  border-radius: 25px; /* Bubble button */
-  background-color: #ff85c1; /* Soft aesthetic pink */
+  border-radius: 25px;
+  background-color: #ff85c1;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
 }
-
 .login-form button[type="submit"]:hover {
-  background-color: #ff5ea8; /* Slightly darker cute pink */
-  transform: translateY(-2px); /* Lift effect */
+  background-color: #ff5ea8;
+  transform: translateY(-2px);
 }
 
-/* Center error message */
-.login-form .error-message {
-  color: #ff4d6d;
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-}
-
-/* Link style */
+/* Link */
 a.task-list {
   display: block;
   margin-top: 20px;
   text-align: center;
   text-decoration: none;
-  color: #d63384; /* Pink link */
-  font-size: 14px;
+  color: #d63384;
+  font-size: 15px;
+  font-weight: 600;
   transition: color 0.3s ease;
 }
-
 a.task-list:hover {
   color: #b02770;
   text-decoration: underline;
 }
 
-/* Mobile Responsiveness */
+/* Responsive */
 @media (max-width: 600px) {
   .login-form {
     padding: 20px;
-    margin: 20px auto;
   }
-
-  .login-form button[type="submit"] {
-    padding: 10px;
+  .site-header.local .brand-title {
+    font-size: 18px;
   }
 }
