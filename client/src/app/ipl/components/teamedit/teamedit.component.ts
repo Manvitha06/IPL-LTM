@@ -1,11 +1,11 @@
-
+ 
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IplService } from '../../services/ipl.service';
 import { Team } from '../../types/Team';
 import { ActivatedRoute, Router } from '@angular/router';
-
+ 
 @Component({
   selector: 'app-teamedit',
   templateUrl: './teamedit.component.html',
@@ -18,13 +18,13 @@ export class TeamEditComponent implements OnInit {
   currentYear: number = new Date().getFullYear();
   team: Team | null = null;
   teamId!: number;
-
+ 
   constructor(
     private formBuilder: FormBuilder,
     private iplService: IplService,
     private route: ActivatedRoute,
   ) {}
-
+ 
   ngOnInit(): void {
     this.teamForm = this.formBuilder.group({
         teamName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]+$/)]], // No special characters
@@ -41,7 +41,7 @@ export class TeamEditComponent implements OnInit {
         this.loadTeamDetails(this.teamId);
     });
   }
-
+ 
   loadTeamDetails(teamId: number): void {
     this.iplService.getTeamById(teamId).subscribe({
         next: (response) => {
@@ -58,7 +58,7 @@ export class TeamEditComponent implements OnInit {
         }
     });
 }
-
+ 
   onSubmit(): void {
     if (this.teamForm.valid) {
         const updatedTeam: Team = {
@@ -85,7 +85,7 @@ export class TeamEditComponent implements OnInit {
         });
     } 
   }
-
+ 
   private handleError(error: HttpErrorResponse): void {
     if (error.error instanceof ErrorEvent) {
       this.errorMessage = `Client-side error: ${error.error.message}`;

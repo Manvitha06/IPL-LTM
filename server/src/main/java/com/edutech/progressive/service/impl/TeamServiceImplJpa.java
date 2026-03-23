@@ -57,9 +57,9 @@ public class TeamServiceImplJpa implements TeamService {
     }
     public void updateTeam(Team team) throws SQLException, TeamDoesNotExistException, TeamAlreadyExistsException{
         Team old= teamRepository.findById(team.getTeamId()).orElseThrow(()-> new TeamDoesNotExistException("Team with given ID Does not exist!"));
-         if(old.getTeamName().equals(teamRepository.findByTeamName(team.getTeamName()).getTeamName())){
-            throw new TeamAlreadyExistsException("Team with the name already exists!");
-        }
+        //  if(old.getTeamName().equals(teamRepository.findByTeamName(team.getTeamName()).getTeamName())){
+        //     throw new TeamAlreadyExistsException("Team with the name already exists!");
+        // }
         old.setEstablishmentYear(team.getEstablishmentYear());
         old.setLocation(team.getLocation());
         old.setOwnerName(team.getOwnerName());
